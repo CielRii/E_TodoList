@@ -1,0 +1,12 @@
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe.config
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.pdb
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.csproj.AssemblyReference.cache
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.csproj.SuggestedBindingRedirects.cache
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList_App.HomePage.resources
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList_App.Properties.Resources.resources
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.csproj.GenerateResource.cache
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.csproj.CoreCompileInputs.cache
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.exe
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.pdb
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList_App.ConnexionPage.resources

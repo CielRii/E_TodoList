@@ -46,6 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnexionPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnexionPage.Designer.cs">
+      <DependentUpon>ConnexionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserCreationPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserCreationPage.Designer.cs">
+      <DependentUpon>UserCreationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TasksTodoPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TasksTodoPage.Designer.cs">
+      <DependentUpon>TasksTodoPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddTaskPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTaskPage.Designer.cs">
+      <DependentUpon>AddTaskPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TasksDonePage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TasksDonePage.Designer.cs">
+      <DependentUpon>TasksDonePage.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomePage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +84,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ConnexionPage.resx">
+      <DependentUpon>ConnexionPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HomePage.resx">
       <DependentUpon>HomePage.cs</DependentUpon>
     </EmbeddedResource>

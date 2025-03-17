@@ -1,4 +1,10 @@
-﻿using System;
+﻿///ETML
+///Author: Sarah Dongmo
+///Creation date: 17.03.25
+///Last modification: 31.03.25
+///Description : 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +22,7 @@ namespace TodoList_App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HomePage());
+            Application.Run(new HomePage(ConnexionPage connexion, UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone));
         }
     }
 }
