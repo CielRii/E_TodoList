@@ -12,9 +12,23 @@ namespace TodoList_App
 {
     public partial class TasksTodoPage : Form
     {
+        public AddTaskPage AddTaskPage;
+        public TasksDonePage TasksDonePage;
         public TasksTodoPage()
         {
             InitializeComponent();
+        }
+
+        private void addTaskBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            AddTaskPage.Show();
+        }
+
+        private void tasksDoneBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            TasksDonePage.Show();
         }
     }
 }

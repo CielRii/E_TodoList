@@ -18,16 +18,35 @@ namespace TodoList_App
 {
     public partial class HomePage : Form
     {
-        public HomePage(ConnexionPage connexion, UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone)
+        public UserCreationPage UserCreationPage;
+        public TasksTodoPage TasksTodoPage;
+        public HomePage(UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone)
         {
             InitializeComponent();
 
-            connexion.Text = this.Text;
             creation.Text = this.Text;
             tasksTodo.Text = this.Text;
             addTask.Text = this.Text;
             tasksDone.Text = this.Text;
 
+            creation.Icon = this.Icon;
+            tasksTodo.Icon = this.Icon;
+            addTask.Icon = this.Icon;
+            tasksDone.Icon = this.Icon;
+
         }
+
+        private void createAccountBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            UserCreationPage.Show();
+        }
+
+        private void connexionBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            TasksTodoPage.Show();
+        }
+
     }
 }

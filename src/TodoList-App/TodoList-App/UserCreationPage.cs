@@ -12,9 +12,16 @@ namespace TodoList_App
 {
     public partial class UserCreationPage : Form
     {
+        public TasksTodoPage TasksTodoPage;
         public UserCreationPage()
         {
             InitializeComponent();
+        }
+
+        private void createAccountBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            TasksTodoPage.Show();
         }
     }
 }

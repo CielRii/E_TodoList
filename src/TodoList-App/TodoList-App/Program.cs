@@ -22,7 +22,25 @@ namespace TodoList_App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HomePage(ConnexionPage connexion, UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone));
+
+            UserCreationPage userCreation = new UserCreationPage();
+            TasksTodoPage tasksTodo = new TasksTodoPage();
+            AddTaskPage addTask = new AddTaskPage();
+            TasksDonePage tasksDone = new TasksDonePage();
+            HomePage home = new HomePage(userCreation, tasksTodo, addTask, tasksDone);
+            home.UserCreationPage = userCreation;
+            home.TasksTodoPage = tasksTodo;
+            userCreation.TasksTodoPage = tasksTodo;
+            tasksTodo.TasksDonePage = tasksDone;
+            tasksTodo.AddTaskPage = addTask;
+            addTask.TasksTodoPage = tasksTodo;
+            tasksDone.TasksTodoPage = tasksTodo;
+
+
+
+
+
+            Application.Run(home);
         }
     }
 }
