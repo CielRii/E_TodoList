@@ -23,6 +23,12 @@ namespace TodoList_App
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+
+            // Initialization of the MCD model 
+            Model model = new Model();
+            HomePage homePage = new HomePage();
+            Controller controller = new Controller(model, homePage);
+
             UserCreationPage userCreation = new UserCreationPage();
             TasksTodoPage tasksTodo = new TasksTodoPage();
             AddTaskPage addTask = new AddTaskPage();
@@ -36,6 +42,7 @@ namespace TodoList_App
             addTask.TasksTodoPage = tasksTodo;
             tasksDone.TasksTodoPage = tasksTodo;
 
+            //home.Controller = controller;
 
 
 
