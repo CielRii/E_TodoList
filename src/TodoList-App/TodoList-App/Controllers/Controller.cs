@@ -14,8 +14,25 @@ namespace TodoList_App
 {
     public class Controller
     {
+        private Model _model;
+        private string previousName;
+        private string newName;
+
+        public HomePage HomePage { get; set; }
+        public UserCreationPage UserCreationPage { get; set; }
+        public TasksTodoPage TasksTodoPage { get; set; }
+        public AddTaskPage AddTaskPage { get; set; }
+        public TasksDonePage TasksDonePage { get; set; }
+
+
         public Controller(Model model, HomePage home)
         {
+            //Vérification de l'accès de l'utilisateur .... userNameInsert, passwordInsert
+            //Ajout... lien avec le modèle et la DB
+            //Modif'... enregistrement du nom actuel avant de valider. - On click sur n'importe quelle tâche
+            //Delete... confirmation avec suppression
+
+            _model = model;
 
         }
 
@@ -23,22 +40,56 @@ namespace TodoList_App
         {
             switch (formName)
             {
-                case "AddTaskPage":
-                    AddTaskPage.Show();
-                    break;
                 case "HomePage":
                     HomePage.Show();
-                    break;
-                case "TasksDonePage":
-                    TasksDonePage.Show();
-                    break;
-                case "TasksTodoPage":
-                    TasksTodoPage.Show();
                     break;
                 case "UserCreationPage":
                     UserCreationPage.Show();
                     break;
+                case "TasksTodoPage":
+                    TasksTodoPage.Show();
+                    break;
+                case "AddTaskPage":
+                    AddTaskPage.Show();
+                    break;
+                case "TasksDonePage":
+                    TasksDonePage.Show();
+                    break;
             }
+        }
+
+        public void CheckLogin (string username, string password)
+        {
+            if (username != string.Empty && password != string.Empty)
+            {
+                if (_model.CheckLogin (username, password))
+                {
+                    Redirection("TasksTodoPage");
+                }
+            }
+        }
+
+        public void ManageTasks (string name)
+        {
+            switch (name)
+            {
+                case "Add":
+                    _model.AddTask (name);
+                    break;
+                case "Edit":
+                    previousName = name;
+                    EditTask(previousName);
+                    break;
+                case "Erase":
+                    _model.EraseTask(name);
+                    break;
+            }
+        }
+
+        public void EditTask (string previousName)
+        {
+            _model.EditTask (newName, previousName);
+
         }
     }
 }

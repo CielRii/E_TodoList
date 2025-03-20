@@ -15,7 +15,7 @@ namespace TodoList_App
     internal static class Program
     {
         /// <summary>
-        /// Point d'entrée principal de l'application.
+        /// Entry point of the application
         /// </summary>
         [STAThread]
         static void Main()
@@ -24,7 +24,7 @@ namespace TodoList_App
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            // Initialization of the MCD model 
+            //Initialization of the MCD model 
             Model model = new Model();
             HomePage homePage = new HomePage();
             Controller controller = new Controller(model, homePage);
@@ -41,11 +41,6 @@ namespace TodoList_App
             tasksTodo.AddTaskPage = addTask;
             addTask.TasksTodoPage = tasksTodo;
             tasksDone.TasksTodoPage = tasksTodo;
-
-            //home.Controller = controller;
-
-
-
 
             Application.Run(home);
         }
