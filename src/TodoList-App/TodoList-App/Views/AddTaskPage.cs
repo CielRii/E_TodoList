@@ -18,7 +18,7 @@ namespace TodoList_App
 {
     public partial class AddTaskPage : Form
     {
-        public TasksTodoPage TasksTodoPage;
+        public Controller Controller { get; set; }
         public AddTaskPage()
         {
             InitializeComponent();
@@ -26,8 +26,13 @@ namespace TodoList_App
 
         private void tasksTodoBtn_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            TasksTodoPage.Show();
+            Controller.Redirection("TasksTodoPage");
+            Hide();
+        }
+
+        private void addTaskBtn_Click(object sender, EventArgs e)
+        {
+            Controller.CheckTaskData(addTaskInsert.Text);
         }
     }
 }

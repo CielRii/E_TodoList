@@ -18,7 +18,7 @@ namespace TodoList_App
 {
     public partial class UserCreationPage : Form
     {
-        public TasksTodoPage TasksTodoPage;
+        public Controller Controller { get; set; }
         public UserCreationPage()
         {
             InitializeComponent();
@@ -26,8 +26,8 @@ namespace TodoList_App
 
         private void createAccountBtn_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            TasksTodoPage.Show();
+            Controller.Redirection("TasksTodoPage");
+            Hide();
         }
     }
 }

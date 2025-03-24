@@ -28,17 +28,23 @@ namespace TodoList_App
             AddTaskPage addTask = new AddTaskPage();
             TasksDonePage tasksDone = new TasksDonePage();
             HomePage home = new HomePage(userCreation, tasksTodo, addTask, tasksDone);
-            home.UserCreationPage = userCreation;
-            home.TasksTodoPage = tasksTodo;
-            userCreation.TasksTodoPage = tasksTodo;
-            tasksTodo.TasksDonePage = tasksDone;
-            tasksTodo.AddTaskPage = addTask;
-            addTask.TasksTodoPage = tasksTodo;
-            tasksDone.TasksTodoPage = tasksTodo;
 
             //Initialization of the MCD model 
             Model model = new Model();
             Controller controller = new Controller(model, home);
+
+            //Initialization of Controller in all page depending on it
+            //userCreation.Controller = controller;
+            //tasksTodo.Controller = controller;
+            //tasksTodo.Controller = controller;
+            //addTask.Controller = controller;
+            //tasksDone.Controller = controller;
+            //home.Controller = controller;
+
+            //Initialization of classes in Controller.cs 
+            controller.UserCreationPage = userCreation;
+            controller.TasksTodoPage = tasksTodo;
+            controller.TasksDonePage = tasksDone;
 
             Application.Run(home);
         }

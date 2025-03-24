@@ -52,6 +52,7 @@
             this.addTaskBtn.TabIndex = 1;
             this.addTaskBtn.Text = "Ajouter la tâche";
             this.addTaskBtn.UseVisualStyleBackColor = true;
+            this.addTaskBtn.Click += new System.EventHandler(this.addTaskBtn_Click);
             // 
             // addTaskInsert
             // 
@@ -80,7 +81,7 @@
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.requestMessageAddTask);
             this.Name = "AddTaskPage";
-            this.Text = "Form4";
+            this.Text = "AddTaskPage";
             this.ResumeLayout(false);
             this.PerformLayout();
 

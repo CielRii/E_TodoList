@@ -18,11 +18,7 @@ namespace TodoList_App
 {
     public partial class HomePage : Form
     {
-        public Model Model;
         public Controller Controller { get; set; }
-
-        public UserCreationPage UserCreationPage;
-        public TasksTodoPage TasksTodoPage;
        
         public HomePage(UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone)
         {
@@ -37,7 +33,6 @@ namespace TodoList_App
             tasksTodo.Icon = Icon;
             addTask.Icon = Icon;
             tasksDone.Icon = Icon;
-
         }
 
         private void createAccountBtn_Click(object sender, EventArgs e)
@@ -51,6 +46,5 @@ namespace TodoList_App
             Controller.CheckLogin(userNameInsert.Text, passwordInsert.Text);
             Hide();
         }
-
     }
 }

@@ -60,7 +60,7 @@
             this.Controls.Add(this.tasksDoneList);
             this.Controls.Add(this.tasksTodoBtn);
             this.Name = "TasksDonePage";
-            this.Text = "Form5";
+            this.Text = "TasksDonePage";
             this.ResumeLayout(false);
             this.PerformLayout();
 

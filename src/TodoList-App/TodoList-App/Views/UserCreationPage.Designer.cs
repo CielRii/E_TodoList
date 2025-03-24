@@ -120,7 +120,7 @@
             this.Controls.Add(this.newUserConfirmPasswordInsert);
             this.Controls.Add(this.requestMessageCreateAccount);
             this.Name = "UserCreationPage";
-            this.Text = "form1";
+            this.Text = "UserCreationPage";
             this.ResumeLayout(false);
             this.PerformLayout();
 

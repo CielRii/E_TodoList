@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.tasksDoneBtn = new System.Windows.Forms.Button();
-            this.tasksTodoList = new System.Windows.Forms.Label();
+            this.tasksTodoTitle = new System.Windows.Forms.Label();
             this.addTaskBtn = new System.Windows.Forms.Button();
+            this.tasksTodoList = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // tasksDoneBtn
@@ -43,15 +44,15 @@
             this.tasksDoneBtn.UseVisualStyleBackColor = true;
             this.tasksDoneBtn.Click += new System.EventHandler(this.tasksDoneBtn_Click);
             // 
-            // tasksTodoList
+            // tasksTodoTitle
             // 
-            this.tasksTodoList.AutoSize = true;
-            this.tasksTodoList.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tasksTodoList.Location = new System.Drawing.Point(229, 57);
-            this.tasksTodoList.Name = "tasksTodoList";
-            this.tasksTodoList.Size = new System.Drawing.Size(358, 29);
-            this.tasksTodoList.TabIndex = 1;
-            this.tasksTodoList.Text = "Votre liste des tâches à faire :";
+            this.tasksTodoTitle.AutoSize = true;
+            this.tasksTodoTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tasksTodoTitle.Location = new System.Drawing.Point(229, 57);
+            this.tasksTodoTitle.Name = "tasksTodoTitle";
+            this.tasksTodoTitle.Size = new System.Drawing.Size(358, 29);
+            this.tasksTodoTitle.TabIndex = 1;
+            this.tasksTodoTitle.Text = "Votre liste des tâches à faire :";
             // 
             // addTaskBtn
             // 
@@ -63,16 +64,24 @@
             this.addTaskBtn.UseVisualStyleBackColor = true;
             this.addTaskBtn.Click += new System.EventHandler(this.addTaskBtn_Click);
             // 
+            // tasksTodoList
+            // 
+            this.tasksTodoList.Location = new System.Drawing.Point(216, 119);
+            this.tasksTodoList.Name = "tasksTodoList";
+            this.tasksTodoList.Size = new System.Drawing.Size(414, 214);
+            this.tasksTodoList.TabIndex = 3;
+            // 
             // TasksTodoPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.tasksTodoList);
+            this.Controls.Add(this.addTaskBtn);
+            this.Controls.Add(this.tasksTodoTitle);
             this.Controls.Add(this.tasksDoneBtn);
             this.Name = "TasksTodoPage";
-            this.Text = "Form3";
+            this.Text = "TasksTodoPage";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,7 +90,8 @@
         #endregion
 
         private System.Windows.Forms.Button tasksDoneBtn;
-        private System.Windows.Forms.Label tasksTodoList;
+        private System.Windows.Forms.Label tasksTodoTitle;
         private System.Windows.Forms.Button addTaskBtn;
+        private System.Windows.Forms.Panel tasksTodoList;
     }
 }

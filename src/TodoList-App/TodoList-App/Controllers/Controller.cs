@@ -73,6 +73,32 @@ namespace TodoList_App
                     Redirection("TasksTodoPage");
                 }
             }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
+            }
+        }
+
+        public void CheckTaskData (string data)
+        {
+
+            if (!string.IsNullOrEmpty(data)) 
+            {
+                string[] tab = data.Split(' ');
+
+                if (tab.Length > 2) // Check the number of word in the variable before adding it
+                {
+                    _model.AddTask(data);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
+                }
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
+            }
         }
 
         public void ManageTasks (string name)
@@ -96,6 +122,11 @@ namespace TodoList_App
         {
             _model.EditTask (newName, previousName);
 
+        }
+
+        public void DisplayTasks ()
+        {
+            _model.
         }
     }
 }

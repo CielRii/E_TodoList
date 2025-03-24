@@ -43,12 +43,6 @@ namespace TodoList_App
             if (Connection == null)
             {
                 string connstring = "server='localhost'; port='6033'; database='setup_database'; UID='root'; password='root'";
-                //string connstring = "server=localhost; port=6033; database=setup_database; UID=root; password=root";
-                //string connstring = "server='localhost'; port='6033'; UID='root'; password='root'; database='setup_database';";
-                //string connstring = "server=localhost; port=6033; UID=root; password=root; database=setup_database;";
-                //connstring = $"Server={Server};Port=3306;Database={DatabaseName};User Id={UserName};Password={Password};";
-
-                //private string myConnectionString = "datasource=localhost;port=6033;username=root;password=root;database=db_gestContact;";
 
                 try
                 {
@@ -57,9 +51,7 @@ namespace TodoList_App
                 }
                 catch (Exception e)
                 {
-                    //Console.WriteLine(e.Message);
                     System.Windows.Forms.MessageBox.Show(e.Message);
-
                 }
 
             }
@@ -77,7 +69,7 @@ namespace TodoList_App
         {
             if (!IsConnect()) return false;
 
-            string query = "SELECT * FROM t_user WHERE `username` =" + username + '"';
+            string query = "SELECT * FROM t_user WHERE `username` =" + '"' + username + '"' + ";";
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
@@ -96,8 +88,39 @@ namespace TodoList_App
             return false;
         }
 
+        public string[] DisplayTasks(string userID)
+        {
+            string[] tasks;
+            if (!IsConnect()) return null;
+
+            string query = "SELECT * FROM t_task t INNER JOIN t_user u WHERE `u.user_id` =" + '"' + userID + '"' + 
+            "`t.user_id`=" + '"' + userID + '"' + ";";
+
+            cmd = new MySqlCommand(query, Connection);
+            dataReader = cmd.ExecuteReader();
+            for (int i = 0; i < dataReader.Read().Length)
+            {
+
+                tasks[i] += dataReader.GetString(i);
+                if (dataReader.GetString(1) == userID)
+                {
+                    if (dataReader.GetString(2) == password)
+                    {
+                        dataReader.Close();
+                        return tasks[];
+                    }
+                }
+            }
+
+            dataReader.Close();
+
+            return null;
+        }
+
         public bool AddTask(string name)
         {
+            if (!IsConnect()) return false;
+
             string query = "INSERT INTO `t_task` WHERE `name` =" + name;
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
@@ -115,6 +138,8 @@ namespace TodoList_App
 
         public bool EditTask(string newName, string previousName)
         {
+            if (!IsConnect()) return false;
+
             string query = "UPDATE `t_task` SET `name` =" + newName + "WHERE `name` =" + previousName;
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
@@ -132,6 +157,8 @@ namespace TodoList_App
 
         public bool EraseTask(string name)
         {
+            if (!IsConnect()) return false;
+
             string query = "DELETE FROM `t_task` WHERE `name` =" + name;
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
