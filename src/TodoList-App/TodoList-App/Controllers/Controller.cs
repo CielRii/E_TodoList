@@ -15,6 +15,8 @@ namespace TodoList_App
     public class Controller
     {
         private Model _model;
+        private HomePage _home;
+
         private string previousName;
         private string newName;
 
@@ -27,17 +29,21 @@ namespace TodoList_App
 
         public Controller(Model model, HomePage home)
         {
-            //Vérification de l'accès de l'utilisateur .... userNameInsert, passwordInsert
-            //Ajout... lien avec le modèle et la DB
-            //Modif'... enregistrement du nom actuel avant de valider. - On click sur n'importe quelle tâche
-            //Delete... confirmation avec suppression
-
             _model = model;
+            _home = home;
+
+            _model.Controller = this;
+            _home.Controller = this;
 
         }
 
         public void Redirection(string formName)
         {
+
+            //Vérification de l'accès de l'utilisateur .... userNameInsert, passwordInsert
+            //Ajout... lien avec le modèle et la DB
+            //Modif'... enregistrement du nom actuel avant de valider. - On click sur n'importe quelle tâche
+            //Delete... confirmation avec suppression
             switch (formName)
             {
                 case "HomePage":

@@ -18,13 +18,12 @@ namespace TodoList_App
 {
     public partial class HomePage : Form
     {
+        public Model Model;
         public Controller Controller { get; set; }
 
         public UserCreationPage UserCreationPage;
         public TasksTodoPage TasksTodoPage;
-
-        public HomePage()
-        { }
+       
         public HomePage(UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone)
         {
             InitializeComponent();
@@ -43,7 +42,6 @@ namespace TodoList_App
 
         private void createAccountBtn_Click(object sender, EventArgs e)
         {
-            userNameInsert.Text = "deux";
             Controller.Redirection("UserCreationPage");
             Hide();
         }

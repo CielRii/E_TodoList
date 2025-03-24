@@ -42,9 +42,13 @@ namespace TodoList_App
         {
             if (Connection == null)
             {
-                //if (String.IsNullOrEmpty(databaseName))
-                // return false;
-                string connstring = string.Format("Server='localhost'; database='setup_database'; UID='root'; password='root'", Server, DatabaseName, UserName, Password);
+                string connstring = "server='localhost'; port='6033'; database='setup_database'; UID='root'; password='root'";
+                //string connstring = "server=localhost; port=6033; database=setup_database; UID=root; password=root";
+                //string connstring = "server='localhost'; port='6033'; UID='root'; password='root'; database='setup_database';";
+                //string connstring = "server=localhost; port=6033; UID=root; password=root; database=setup_database;";
+                //connstring = $"Server={Server};Port=3306;Database={DatabaseName};User Id={UserName};Password={Password};";
+
+                //private string myConnectionString = "datasource=localhost;port=6033;username=root;password=root;database=db_gestContact;";
 
                 try
                 {
@@ -53,11 +57,14 @@ namespace TodoList_App
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message);
+                    System.Windows.Forms.MessageBox.Show(e.Message);
+
                 }
 
             }
-
+            // if (String.IsNullOrEmpty(databaseName))
+            // return false;
             return true;
         }
 
@@ -68,7 +75,9 @@ namespace TodoList_App
 
         public bool CheckLogin(string username, string password)
         {
-            string query = "SELECT * FROM t_user WHERE `username` =" + username;
+            if (!IsConnect()) return false;
+
+            string query = "SELECT * FROM t_user WHERE `username` =" + username + '"';
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
