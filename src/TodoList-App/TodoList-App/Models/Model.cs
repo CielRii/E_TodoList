@@ -30,6 +30,7 @@ namespace TodoList_App
 
         private MySqlCommand cmd;
         private MySqlDataReader dataReader;
+        private int userID;
 
         public static Model Instance()
         {
@@ -74,7 +75,8 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                RetrieveID(dataReader.GetString(1).ToINT32);
+                //Retrieve actual user id
+                userID = Convert.ToInt32(dataReader.GetString(1));
                 if (dataReader.GetString(1) == username)
                 {
                     if (dataReader.GetString(2) == password)
@@ -89,10 +91,9 @@ namespace TodoList_App
             return false;
         }
 
-        public int RetrieveID(int ID)
+        public int RetrieveUserID()
         {
-            return 
-            //return _instance.RetrieveID();
+            return userID;
         }
 
         public List<string> DisplayTasks(int userID)

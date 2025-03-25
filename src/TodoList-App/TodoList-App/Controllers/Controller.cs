@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TodoList_App
 {
@@ -74,12 +75,12 @@ namespace TodoList_App
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
+                    MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
                 }
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
+                MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
             }
         }
 
@@ -96,12 +97,12 @@ namespace TodoList_App
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
+                   MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
                 }
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
+                MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
             }
         }
 
@@ -120,18 +121,21 @@ namespace TodoList_App
                     _model.EraseTask(name);
                     break;
             }
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         }
 
         public void EditTask (string previousName)
         {
             _model.EditTask (newName, previousName);
-
         }
 
         public void DisplayTasks()
         {
-            _model.DisplayTasks(1);
+            _model.DisplayTasks(_model.RetrieveUserID());
+        }
+
+        public void DeplaceTask()
+        {
+            //Controls.Add(taskTodoLbl1);
         }
     }
 }
