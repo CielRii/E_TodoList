@@ -72,6 +72,10 @@ namespace TodoList_App
                 {
                     Redirection("TasksTodoPage");
                 }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
+                }
             }
             else
             {
@@ -116,6 +120,7 @@ namespace TodoList_App
                     _model.EraseTask(name);
                     break;
             }
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         }
 
         public void EditTask (string previousName)
@@ -124,9 +129,9 @@ namespace TodoList_App
 
         }
 
-        public void DisplayTasks ()
+        public void DisplayTasks()
         {
-            _model.
+            _model.DisplayTasks(1);
         }
     }
 }

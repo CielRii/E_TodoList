@@ -74,6 +74,7 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
+                RetrieveID(dataReader.GetString(1).ToINT32);
                 if (dataReader.GetString(1) == username)
                 {
                     if (dataReader.GetString(2) == password)
@@ -88,33 +89,30 @@ namespace TodoList_App
             return false;
         }
 
-        public string[] DisplayTasks(string userID)
+        public int RetrieveID(int ID)
         {
-            string[] tasks;
+            return 
+            //return _instance.RetrieveID();
+        }
+
+        public List<string> DisplayTasks(int userID)
+        {
+            List<string> tasks = new List<string>();
+            int i = 0;
             if (!IsConnect()) return null;
 
-            string query = "SELECT * FROM t_task t INNER JOIN t_user u WHERE `u.user_id` =" + '"' + userID + '"' + 
+            string query = "SELECT * FROM t_task t INNER JOIN t_user u WHERE `u.user_id` =" + '"' + userID + '"' +
             "`t.user_id`=" + '"' + userID + '"' + ";";
 
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
-            for (int i = 0; i < dataReader.Read().Length)
+            while (dataReader.Read())
             {
-
-                tasks[i] += dataReader.GetString(i);
-                if (dataReader.GetString(1) == userID)
-                {
-                    if (dataReader.GetString(2) == password)
-                    {
-                        dataReader.Close();
-                        return tasks[];
-                    }
-                }
+                tasks.Add(dataReader.GetString(i));
+                i++;
             }
-
             dataReader.Close();
-
-            return null;
+            return tasks;
         }
 
         public bool AddTask(string name)

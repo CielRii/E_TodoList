@@ -28,10 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.requestMessageAddTask = new System.Windows.Forms.Label();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.addTaskInsert = new System.Windows.Forms.TextBox();
             this.tasksTodoBtn = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // requestMessageAddTask
@@ -71,6 +75,19 @@
             this.tasksTodoBtn.UseVisualStyleBackColor = true;
             this.tasksTodoBtn.Click += new System.EventHandler(this.tasksTodoBtn_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
             // AddTaskPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -82,6 +99,7 @@
             this.Controls.Add(this.requestMessageAddTask);
             this.Name = "AddTaskPage";
             this.Text = "AddTaskPage";
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +111,7 @@
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.TextBox addTaskInsert;
         private System.Windows.Forms.Button tasksTodoBtn;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
