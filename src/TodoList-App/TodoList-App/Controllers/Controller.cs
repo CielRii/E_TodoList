@@ -133,9 +133,9 @@ namespace TodoList_App
             _model.DisplayTasks(_model.RetrieveUserID());
         }
 
-        public void DeplaceTask()
+        public void DeplaceTask(Label task)
         {
-            //Controls.Add(taskTodoLbl1);
+            TasksDonePage.Controls.Add(task);
         }
     }
 }
