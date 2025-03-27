@@ -36,23 +36,27 @@ namespace TodoList_App
         public TasksTodoPage()
         {
             InitializeComponent();
+        }
 
-            //Controller = Controller ?? throw new ArgumentNullException(nameof(Controller));
-
+        private void TasksTodoPage_Load(object sender, EventArgs e)
+        {
             List<string> tasksTodo = Controller.DisplayTasks();
 
-            for (int j = 0; j < 10; j++)
+            if (tasksTodo.Count > 0)
             {
-                taskTodoLbl = new Label();
-                taskTodoLbl.Click += new EventHandler(taskTodoLbl_Click); //Add of an event to handle further operations
-                taskTodoLbl.Height = LABEL_HEIGHT;
-                taskTodoLbl.Width = LABEL_WIDTH;
-                taskTodoLbl.Location = new Point(x, y);
-                taskTodoLbl.Name = "taskTodoLbl" + indexTask;
-                taskTodoLbl.Text = tasksTodo[j];
-                x += LABEL_HEIGHT + 10;
-                tasksTodoList.Controls.Add(taskTodoLbl);
-                indexTask++;
+                for (int j = 0; j < tasksTodo.Count; j++)
+                {
+                    taskTodoLbl = new Label();
+                    taskTodoLbl.Click += new EventHandler(taskTodoLbl_Click); //Add of an event to handle further operations
+                    taskTodoLbl.Height = LABEL_HEIGHT;
+                    taskTodoLbl.Width = LABEL_WIDTH;
+                    taskTodoLbl.Location = new Point(x, y);
+                    taskTodoLbl.Name = "taskTodoLbl" + indexTask;
+                    taskTodoLbl.Text = tasksTodo[j];
+                    x += LABEL_HEIGHT + 10;
+                    tasksTodoList.Controls.Add(taskTodoLbl);
+                    indexTask++;
+                }
             }
         }
 

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -38,13 +39,21 @@ namespace TodoList_App
 
         }
 
+        public void ShareAppID()
+        {
+            UserCreationPage.Text = HomePage.Text;
+            TasksTodoPage.Text = HomePage.Text;
+            AddTaskPage.Text = HomePage.Text;
+            TasksDonePage.Text = HomePage.Text;
+
+            UserCreationPage.Icon = HomePage.Icon;
+            TasksTodoPage.Icon = HomePage.Icon;
+            AddTaskPage.Icon = HomePage.Icon;
+            TasksDonePage.Icon = HomePage.Icon;
+        }
+
         public void Redirection(string formName)
         {
-
-            //Vérification de l'accès de l'utilisateur .... userNameInsert, passwordInsert
-            //Ajout... lien avec le modèle et la DB
-            //Modif'... enregistrement du nom actuel avant de valider. - On click sur n'importe quelle tâche
-            //Delete... confirmation avec suppression
             switch (formName)
             {
                 case "HomePage":
@@ -84,12 +93,36 @@ namespace TodoList_App
             }
         }
 
+        public bool CheckUserAvaible (string username)
+        {
+            if (_model.CheckUserAvaible(username))
+                return true;
+            else
+                return false;
+        }
+
+
         public void CheckPassword (string password, string confirmPassword)
         {
-            if (password == confirmPassword)
-                Redirection("TasksTodoPage");
+
+            Regex upperCase = new Regex("([A-Z])");
+            Regex lowerCase = new Regex("([a-z])");
+            Regex digit = new Regex("([0-9])");
+            Regex specials = new Regex("([#~%*])");
+
+            if (password.Length == 8 && upperCase.Matches(password).Count >= 1 && lowerCase.Matches(password).Count >= 1 &&
+                digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
+            {
+                if (password == confirmPassword)
+                    Redirection("TasksTodoPage");
+                else
+                    MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas.");
+            }
             else
-                MessageBox.Show("Veuillez entrer un mot de passe.");
+            {
+                MessageBox.Show("Votre mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, " +
+                    "un lettre majuscule, une lettre miniscule et un caractère spécial.");
+            }
         }
 
         public void CheckTaskData (string data)

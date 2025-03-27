@@ -26,7 +26,10 @@ namespace TodoList_App
 
         private void createAccountBtn_Click(object sender, EventArgs e)
         {
-            Controller.CheckPassword(newUserPasswordInsert.Text, newUserConfirmPasswordInsert.Text);
+            if (Controller.CheckUserAvaible(newUserNameInsert.Text))
+                Controller.CheckPassword(newUserPasswordInsert.Text, newUserConfirmPasswordInsert.Text);
+            else
+                MessageBox.Show("Ce nom d'utilisateur n'est pas disponible, veuillez choisir un autre.");
 
             Hide();
         }

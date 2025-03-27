@@ -30,7 +30,7 @@ namespace TodoList_App
 
         private MySqlCommand cmd;
         private MySqlDataReader dataReader;
-        private int userID;
+        public int userID;
 
         public static Model Instance()
         {
@@ -76,7 +76,8 @@ namespace TodoList_App
             while (dataReader.Read())
             {
                 //Retrieve actual user id
-                userID = Convert.ToInt32(dataReader.GetString(1));
+                userID = dataReader.GetInt32(0);
+
                 if (dataReader.GetString(1) == username)
                 {
                     if (dataReader.GetString(2) == password)
@@ -96,14 +97,37 @@ namespace TodoList_App
             return userID;
         }
 
+        public bool CheckUserAvaible (string username)
+        {
+            if (!IsConnect()) return false;
+
+            int i = 0;
+            string query = "SELECT username FROM t_user;";
+            cmd = new MySqlCommand(query, Connection);
+            dataReader = cmd.ExecuteReader();
+            while (dataReader.Read())
+            {
+                if (dataReader.GetString(i) == username)
+                {
+                    dataReader.Close();
+                    return false;
+                }
+                i++;
+            }
+
+            dataReader.Close();
+            return true;
+        }
+
         public List<string> DisplayTasks(int userID)
         {
             List<string> tasks = new List<string>();
             int i = 0;
             if (!IsConnect()) return null;
 
-            string query = "SELECT * FROM t_task t INNER JOIN t_user u WHERE `u.user_id` =" + '"' + userID + '"' +
-            "`t.user_id`=" + '"' + userID + '"' + ";";
+            string query = "SELECT * FROM t_task t INNER JOIN t_user u ON t.user_id = u.user_id " +
+               "WHERE u.user_id = \"" + userID + "\";";
+
 
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();

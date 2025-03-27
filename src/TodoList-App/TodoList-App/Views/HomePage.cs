@@ -23,16 +23,11 @@ namespace TodoList_App
         public HomePage() //UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone
         {
             InitializeComponent();
+        }
 
-            //creation.Text = Text;
-            //tasksTodo.Text = Text;
-            //addTask.Text = Text;
-            //tasksDone.Text = Text;
-
-            //creation.Icon = Icon;
-            //tasksTodo.Icon = Icon;
-            //addTask.Icon = Icon;
-            //tasksDone.Icon = Icon;
+        private void HomePage_Load(object sender, EventArgs e)
+        {
+            Controller.ShareAppID();
         }
 
         private void createAccountBtn_Click(object sender, EventArgs e)
