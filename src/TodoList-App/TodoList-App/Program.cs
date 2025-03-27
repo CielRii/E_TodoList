@@ -23,23 +23,23 @@ namespace TodoList_App
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            //Initialization of the MCD model 
+            Model model = new Model();
+            HomePage home = new HomePage();
+            Controller controller = new Controller(model, home);
+
+            //Initialization of all the page
             UserCreationPage userCreation = new UserCreationPage();
             TasksTodoPage tasksTodo = new TasksTodoPage();
             AddTaskPage addTask = new AddTaskPage();
             TasksDonePage tasksDone = new TasksDonePage();
-            HomePage home = new HomePage(userCreation, tasksTodo, addTask, tasksDone);
-
-            //Initialization of the MCD model 
-            Model model = new Model();
-            Controller controller = new Controller(model, home);
 
             //Initialization of Controller in all page depending on it
-            //userCreation.Controller = controller;
-            //tasksTodo.Controller = controller;
-            //tasksTodo.Controller = controller;
-            //addTask.Controller = controller;
-            //tasksDone.Controller = controller;
-            //home.Controller = controller;
+            userCreation.Controller = controller;
+            tasksTodo.Controller = controller;
+            addTask.Controller = controller;
+            tasksDone.Controller = controller;
+            home.Controller = controller;
 
             //Initialization of classes in Controller.cs 
             controller.UserCreationPage = userCreation;

@@ -84,9 +84,16 @@ namespace TodoList_App
             }
         }
 
+        public void CheckPassword (string password, string confirmPassword)
+        {
+            if (password == confirmPassword)
+                Redirection("TasksTodoPage");
+            else
+                MessageBox.Show("Veuillez entrer un mot de passe.");
+        }
+
         public void CheckTaskData (string data)
         {
-
             if (!string.IsNullOrEmpty(data)) 
             {
                 string[] tab = data.Split(' ');
@@ -128,9 +135,9 @@ namespace TodoList_App
             _model.EditTask (newName, previousName);
         }
 
-        public void DisplayTasks()
+        public List<string> DisplayTasks()
         {
-            _model.DisplayTasks(_model.RetrieveUserID());
+            return _model.DisplayTasks(_model.RetrieveUserID());
         }
 
         public void DeplaceTask(Label task)

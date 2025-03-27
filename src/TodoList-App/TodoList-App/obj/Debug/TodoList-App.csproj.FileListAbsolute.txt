@@ -1,6 +1,5 @@
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySql.Data.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe.config
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.pdb
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\BouncyCastle.Cryptography.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Google.Protobuf.dll
@@ -10,6 +9,7 @@ C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySql.Data.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySqlConnector.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Buffers.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Configuration.ConfigurationManager.dll

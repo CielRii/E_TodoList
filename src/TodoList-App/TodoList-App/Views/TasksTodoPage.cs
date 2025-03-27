@@ -36,21 +36,24 @@ namespace TodoList_App
         public TasksTodoPage()
         {
             InitializeComponent();
-            //Controller.DisplayTasks();
+
+            //Controller = Controller ?? throw new ArgumentNullException(nameof(Controller));
+
+            List<string> tasksTodo = Controller.DisplayTasks();
 
             for (int j = 0; j < 10; j++)
             {
                 taskTodoLbl = new Label();
-                taskTodoLbl.Click += new EventHandler(taskTodoLbl_Click); //Add of an event to handler further operations
+                taskTodoLbl.Click += new EventHandler(taskTodoLbl_Click); //Add of an event to handle further operations
                 taskTodoLbl.Height = LABEL_HEIGHT;
                 taskTodoLbl.Width = LABEL_WIDTH;
                 taskTodoLbl.Location = new Point(x, y);
                 taskTodoLbl.Name = "taskTodoLbl" + indexTask;
+                taskTodoLbl.Text = tasksTodo[j];
                 x += LABEL_HEIGHT + 10;
                 tasksTodoList.Controls.Add(taskTodoLbl);
                 indexTask++;
             }
-
         }
 
         private void taskTodoLbl_Click(object sender, EventArgs e)
@@ -75,15 +78,19 @@ namespace TodoList_App
                 {
                     ToolStripMenuItem crud = new ToolStripMenuItem(option);
                     if (option == "1.Marquer la tâche comme complète")
-                        crud.Click += new EventHandler(markTaskAsDone_Click); //Add of an event to handler further operations
+                        crud.Click += new EventHandler(markTaskAsDone_Click); //Add of an event to handle further operations
                     if (option == "2.Modifier la tâche")
-                        crud.Click += new EventHandler(editTask_Click); //Add of an event to handler further operations
+                        crud.Click += new EventHandler(editTask_Click); //Add of an event to handle further operations
                     if (option == "3.Supprimer la tâche")
-                        crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handler further operations
+                        crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handle further operations
                     options.Items.Add(crud);
                     options.Dock = DockStyle.Right;
                     crud.DropDown = contextMenuStrip;
                 }
+                //Link the close button to the menu
+                closeBtn.ContextMenuStrip = contextMenuStrip;
+                closeBtn.Visible = true;
+                closeBtn.Click += new EventHandler(closeBtn_Click);
 
                 // Assign the ContextMenuStrip to the form's 
                 // ContextMenuStrip property.
@@ -150,6 +157,17 @@ namespace TodoList_App
 
             if (deleteStatus)
                 taskTodoLbl.Visible = false;
+        }
+
+        private void closeBtn_Click(object sender, EventArgs e)
+        {
+            //ContextMenuStrip = null;
+            //ContextMenuStrip.Close();
+
+            //ContextMenuStrip.Hide();
+            ContextMenuStrip.Visible = false;
+
+            closeBtn.Visible = false;
         }
 
         private void addTaskBtn_Click(object sender, EventArgs e)

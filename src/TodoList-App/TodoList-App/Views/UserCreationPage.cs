@@ -26,7 +26,8 @@ namespace TodoList_App
 
         private void createAccountBtn_Click(object sender, EventArgs e)
         {
-            Controller.Redirection("TasksTodoPage");
+            Controller.CheckPassword(newUserPasswordInsert.Text, newUserConfirmPasswordInsert.Text);
+
             Hide();
         }
     }

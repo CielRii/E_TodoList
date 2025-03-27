@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TasksTodoPage));
             this.tasksDoneBtn = new System.Windows.Forms.Button();
             this.tasksTodoTitle = new System.Windows.Forms.Label();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.tasksTodoList = new System.Windows.Forms.Panel();
+            this.closeBtn = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.SuspendLayout();
             // 
             // tasksDoneBtn
@@ -71,17 +74,30 @@
             this.tasksTodoList.Size = new System.Drawing.Size(414, 214);
             this.tasksTodoList.TabIndex = 3;
             // 
+            // closeBtn
+            // 
+            this.closeBtn.Image = ((System.Drawing.Image)(resources.GetObject("closeBtn.Image")));
+            this.closeBtn.Location = new System.Drawing.Point(612, 12);
+            this.closeBtn.Name = "closeBtn";
+            this.closeBtn.Size = new System.Drawing.Size(18, 10);
+            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.closeBtn.TabIndex = 4;
+            this.closeBtn.TabStop = false;
+            this.closeBtn.Visible = false;
+            // 
             // TasksTodoPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.closeBtn);
             this.Controls.Add(this.tasksTodoList);
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.tasksTodoTitle);
             this.Controls.Add(this.tasksDoneBtn);
             this.Name = "TasksTodoPage";
             this.Text = "TasksTodoPage";
+            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +109,6 @@
         private System.Windows.Forms.Label tasksTodoTitle;
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.Panel tasksTodoList;
+        private System.Windows.Forms.PictureBox closeBtn;
     }
 }
