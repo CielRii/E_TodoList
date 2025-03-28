@@ -70,8 +70,9 @@ namespace TodoList_App
         {
             if (!IsConnect()) return false;
 
-            string query = "SELECT * FROM t_user WHERE `username` =" + '"' + username + '"' + ";";
-            cmd = new MySqlCommand(query, Connection);
+            string query = "SELECT * FROM t_user WHERE `username` = @username;"; //Secure request
+            cmd = new MySqlCommand(query, Connection); //Send the request to the database
+            cmd.Parameters.AddWithValue("@username", username); //Bind the parameters
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
@@ -119,6 +120,20 @@ namespace TodoList_App
             return true;
         }
 
+        public bool CreateUser(string username, string password)
+        {
+            if (!IsConnect()) return false;
+
+            string query = "INSERT INTO `t_user`(user_id, username, password) VALUES(NULL, @username, @password);";
+
+            cmd = new MySqlCommand(query, Connection);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            return true;
+        }
+
         public List<string> DisplayTasks(int userID)
         {
             List<string> tasks = new List<string>();
@@ -126,10 +141,10 @@ namespace TodoList_App
             if (!IsConnect()) return null;
 
             string query = "SELECT * FROM t_task t INNER JOIN t_user u ON t.user_id = u.user_id " +
-               "WHERE u.user_id = \"" + userID + "\";";
-
+               "WHERE u.user_id = @userID;";
 
             cmd = new MySqlCommand(query, Connection);
+            cmd.Parameters.AddWithValue("@userID", userID);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
@@ -144,57 +159,39 @@ namespace TodoList_App
         {
             if (!IsConnect()) return false;
 
-            string query = "INSERT INTO `t_task` WHERE `name` =" + name;
+            string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4)" +
+                "VALUES (NULL, @name, @userID, NULL, NULL, NULL, NULL);";
             cmd = new MySqlCommand(query, Connection);
-            dataReader = cmd.ExecuteReader();
-            while (dataReader.Read())
-            {
-                if (name == dataReader.GetString(1))
-                {
-                    dataReader.Close();
-                    return true;
-                }
-            }
-            dataReader.Close();
-            return false;
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            return true;
         }
 
         public bool EditTask(string newName, string previousName)
         {
             if (!IsConnect()) return false;
 
-            string query = "UPDATE `t_task` SET `name` =" + newName + "WHERE `name` =" + previousName;
+            string query = "UPDATE `t_task` SET `name` = @newName WHERE `name` = @previousName;";
             cmd = new MySqlCommand(query, Connection);
-            dataReader = cmd.ExecuteReader();
-            while (dataReader.Read())
-            {
-                if (newName == dataReader.GetString(1))
-                {
-                    dataReader.Close();
-                    return true;
-                }
-            }
-            dataReader.Close();
-            return false;
+            cmd.Parameters.AddWithValue("@newName", newName);
+            cmd.Parameters.AddWithValue("@previousName", previousName);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            return true;
         }
 
         public bool EraseTask(string name)
         {
             if (!IsConnect()) return false;
 
-            string query = "DELETE FROM `t_task` WHERE `name` =" + name;
+            string query = "DELETE FROM `t_task` WHERE `name` = @name;";
             cmd = new MySqlCommand(query, Connection);
-            dataReader = cmd.ExecuteReader();
-            while (dataReader.Read())
-            {
-                if (name == dataReader.GetString(1))
-                {
-                    dataReader.Close();
-                    return true;
-                }
-            }
-            dataReader.Close();
-            return false;
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            return true;
         }
     }
 }

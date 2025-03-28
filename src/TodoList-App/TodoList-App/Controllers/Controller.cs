@@ -41,7 +41,7 @@ namespace TodoList_App
 
         public void ShareAppID()
         {
-            UserCreationPage.Text = HomePage.Text;
+            UserCreationPage.Text = HomePage.Text; //
             TasksTodoPage.Text = HomePage.Text;
             AddTaskPage.Text = HomePage.Text;
             TasksDonePage.Text = HomePage.Text;
@@ -114,14 +114,14 @@ namespace TodoList_App
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
-                    Redirection("TasksTodoPage");
+                { ManageTasks("Add"); Redirection("TasksTodoPage"); }
                 else
-                    MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas.");
+                { MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas."); }
             }
             else
             {
                 MessageBox.Show("Votre mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, " +
-                    "un lettre majuscule, une lettre miniscule et un caractère spécial.");
+                "un lettre majuscule, une lettre miniscule et un caractère spécial.");
             }
         }
 

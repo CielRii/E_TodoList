@@ -27,7 +27,7 @@ namespace TodoList_App
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            Controller.ShareAppID();
+            Controller.ShareAppID(); //
         }
 
         private void createAccountBtn_Click(object sender, EventArgs e)
