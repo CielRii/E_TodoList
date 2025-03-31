@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace TodoList_App
 {
@@ -21,8 +22,8 @@ namespace TodoList_App
         public Controller Controller { get; set; }
 
         private Label taskDoneLbl;
-        private TextBox taskTodoTxt;
 
+        private List<string> tasksDone;
         private bool firstClick = false;
         private bool deleteStatus = false;
 
@@ -30,7 +31,7 @@ namespace TodoList_App
         private int indexTask = 1;
         private int x = 1;
         const int y = 1;
-        const bool done = false;
+        const bool done = true;
 
         // Declare the ContextMenuStrip control.
         private ContextMenuStrip contextMenuStrip;
@@ -41,11 +42,11 @@ namespace TodoList_App
 
         private void TasksDonePage_Load(object sender, EventArgs e)
         {
-            List<string> tasksTodo = Controller.DisplayTasks(done);
+            tasksDone = Controller.DisplayTasks(done);
 
-            if (tasksTodo.Count > 0)
+            if (tasksDone.Count > 0)
             {
-                for (int j = 0; j < tasksTodo.Count; j++)
+                for (int j = 0; j < tasksDone.Count; j++)
                 {
                     taskDoneLbl = new Label();
                     taskDoneLbl.Click += new EventHandler(taskDoneLbl_Click); //Add of an event to handle further operations
@@ -53,7 +54,7 @@ namespace TodoList_App
                     taskDoneLbl.Width = LABEL_WIDTH;
                     taskDoneLbl.Location = new Point(x, y);
                     taskDoneLbl.Name = "taskDoneLbl" + indexTask;
-                    taskDoneLbl.Text = tasksTodo[j];
+                    taskDoneLbl.Text = tasksDone[j];
                     x += LABEL_HEIGHT + 10;
                     tasksDoneList.Controls.Add(taskDoneLbl);
                     indexTask++;
@@ -114,7 +115,7 @@ namespace TodoList_App
             {
                 case DialogResult.Yes:
                     deleteStatus = true;
-                    Controller.ManageTasks("Erase");
+                    Controller.EraseTask(taskDoneLbl.Text);
                     break;
                 case DialogResult.No:
                     deleteStatus = false;
@@ -130,8 +131,18 @@ namespace TodoList_App
             Label lbl = new Label();
             lbl.Text = taskDoneLbl.Text; //
             lbl.Visible = true;
-            Controller.DeplaceTask(lbl);
-            taskDoneLbl.Visible = false;
+            Controller.DeplaceTask(lbl, false);
+            removeTask();
+            //taskDoneLbl.Visible = false;
+        }
+
+        private void removeTask()
+        {
+            string[] index = Regex.Split(taskDoneLbl.Name, @"\D+");
+            foreach (string currentIndex in index)
+            {
+                tasksDone.RemoveAt(Convert.ToInt32(currentIndex));
+            }
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
@@ -145,9 +156,9 @@ namespace TodoList_App
             closeBtn.Visible = false;
         }
 
-        private void tasksTodoBtn_Click(object sender, EventArgs e)
+        private void tasksDoneBtn_Click(object sender, EventArgs e)
         {
-            Controller.Redirection("TasksTodoPage");
+            Controller.Redirection("tasksDonePage");
             Hide();
         }
     }

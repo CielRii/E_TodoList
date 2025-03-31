@@ -137,7 +137,6 @@ namespace TodoList_App
         public List<string> DisplayTasks(int userID, bool done)
         {
             List<string> tasks = new List<string>();
-            int i = 0;
             if (!IsConnect()) return null;
 
             string query = "SELECT name FROM `t_task` t INNER JOIN `t_user` u ON t.user_id = u.user_id " +
@@ -149,8 +148,7 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                tasks.Add(dataReader.GetString(i));
-                i++;
+                tasks.Add(dataReader.GetString(0)); 
             }
             dataReader.Close();
             return tasks;

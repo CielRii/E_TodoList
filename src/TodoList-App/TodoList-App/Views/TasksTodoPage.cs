@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace TodoList_App
 {
@@ -23,11 +24,12 @@ namespace TodoList_App
         private Label taskTodoLbl;
         private TextBox taskTodoTxt;
 
+        private List<string> tasksTodo;
         private bool firstClick = false;
         private bool deleteStatus = false;
 
         const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25, PANEL_SIZE = 40; //Label height and width
-        private int indexTask = 1;
+        private int indexTask = 0;
         private int x = 1;
         const int y = 1;
         const bool done = false;
@@ -41,7 +43,7 @@ namespace TodoList_App
 
         private void TasksTodoPage_Load(object sender, EventArgs e)
         {
-            List<string> tasksTodo = Controller.DisplayTasks(done);
+            tasksTodo = Controller.DisplayTasks(done);
 
             if (tasksTodo.Count > 0)
             {
@@ -102,9 +104,9 @@ namespace TodoList_App
                 ContextMenuStrip = contextMenuStrip;
 
                 // Add the ToolStrip control to the Controls collection.
-                this.Controls.Add(ctrl);
+                Controls.Add(ctrl);
                 // Add the MenuStrip control last. This is important for correct placement in the z-order.
-                this.Controls.Add(options);
+                Controls.Add(options);
                 firstClick = true;
             }
         }
@@ -114,8 +116,9 @@ namespace TodoList_App
             Label lbl = new Label();
             lbl.Text = taskTodoLbl.Text; //
             lbl.Visible = true;
-            Controller.DeplaceTask(lbl);
-            taskTodoLbl.Visible = false;
+            Controller.DeplaceTask(lbl, true);
+            removeTask();
+            //taskTodoLbl.Visible = false;
         }
 
         private void editTask_Click(object sender, EventArgs e)
@@ -153,15 +156,25 @@ namespace TodoList_App
             {
                 case DialogResult.Yes:
                     deleteStatus = true;
-                    taskTodoLbl.Visible = false;
+                    //taskTodoLbl.Visible = false;
+                    removeTask();
                     break;
                 case DialogResult.No:
                     deleteStatus = false;
                     break;
             }
 
-            if (deleteStatus)
-                taskTodoLbl.Visible = false;
+            //if (deleteStatus)
+            //    taskTodoLbl.Visible = false;
+        }
+
+        private void removeTask()
+        {
+            string[] index = Regex.Split(taskTodoLbl.Name, @"\D+");
+            foreach (string currentIndex in index)
+            {
+                tasksTodo.RemoveAt(Convert.ToInt32(currentIndex));
+            }
         }
 
         private void closeBtn_Click(object sender, EventArgs e)

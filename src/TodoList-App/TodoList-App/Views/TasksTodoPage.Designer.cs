@@ -77,7 +77,7 @@
             // closeBtn
             // 
             this.closeBtn.Image = ((System.Drawing.Image)(resources.GetObject("closeBtn.Image")));
-            this.closeBtn.Location = new System.Drawing.Point(612, 12);
+            this.closeBtn.Location = new System.Drawing.Point(569, 12);
             this.closeBtn.Name = "closeBtn";
             this.closeBtn.Size = new System.Drawing.Size(18, 10);
             this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -109,7 +109,7 @@
         private System.Windows.Forms.Button tasksDoneBtn;
         private System.Windows.Forms.Label tasksTodoTitle;
         private System.Windows.Forms.Button addTaskBtn;
-        private System.Windows.Forms.Panel tasksTodoList;
         private System.Windows.Forms.PictureBox closeBtn;
+        public System.Windows.Forms.Panel tasksTodoList;
     }
 }

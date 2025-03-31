@@ -152,26 +152,14 @@ namespace TodoList_App
             insert.Text = null; //
         }
 
-        public void ManageTasks (string name)
-        {
-            switch (name)
-            {
-                case "Add":
-                    _model.AddTask (name);
-                    break;
-                case "Edit":
-                    previousName = name;
-                    EditTask(previousName);
-                    break;
-                case "Erase":
-                    _model.EraseTask(name);
-                    break;
-            }
-        }
-
         public void EditTask (string previousName)
         {
             _model.EditTask (newName, previousName);
+        }
+
+        public void EraseTask(string name)
+        {
+            _model.EraseTask(name);
         }
 
         public List<string> DisplayTasks(bool done)
@@ -179,9 +167,13 @@ namespace TodoList_App
             return _model.DisplayTasks(_model.RetrieveUserID(), done);
         }
 
-        public void DeplaceTask(Label task)
+        public void DeplaceTask(Label task, bool done)
         {
-            TasksDonePage.Controls.Add(task);
+            if (done)
+                TasksDonePage.tasksDoneList.Controls.Add(task);
+            else
+                TasksTodoPage.tasksTodoList.Controls.Add(task);
+            //TasksDonePage.Controls.Remove(task);
         }
     }
 }
