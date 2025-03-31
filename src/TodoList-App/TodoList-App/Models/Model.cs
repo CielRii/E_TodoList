@@ -134,17 +134,18 @@ namespace TodoList_App
             return true;
         }
 
-        public List<string> DisplayTasks(int userID)
+        public List<string> DisplayTasks(int userID, bool done)
         {
             List<string> tasks = new List<string>();
             int i = 0;
             if (!IsConnect()) return null;
 
-            string query = "SELECT * FROM t_task t INNER JOIN t_user u ON t.user_id = u.user_id " +
-               "WHERE u.user_id = @userID;";
+            string query = "SELECT name FROM `t_task` t INNER JOIN `t_user` u ON t.user_id = u.user_id " +
+               "WHERE u.user_id = @userID && t.done = @done ;";
 
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@done", done);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
@@ -160,7 +161,7 @@ namespace TodoList_App
             if (!IsConnect()) return false;
 
             string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4)" +
-                "VALUES (NULL, @name, @userID, NULL, NULL, NULL, NULL);";
+                "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID);";
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@userID", userID);

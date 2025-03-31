@@ -19,6 +19,7 @@ namespace TodoList_App
         private Model _model;
         private HomePage _home;
 
+        private string username;
         private string previousName;
         private string newName;
 
@@ -41,7 +42,7 @@ namespace TodoList_App
 
         public void ShareAppID()
         {
-            UserCreationPage.Text = HomePage.Text; //
+            UserCreationPage.Text = HomePage.Text;
             TasksTodoPage.Text = HomePage.Text;
             AddTaskPage.Text = HomePage.Text;
             TasksDonePage.Text = HomePage.Text;
@@ -96,9 +97,9 @@ namespace TodoList_App
         public bool CheckUserAvaible (string username)
         {
             if (_model.CheckUserAvaible(username))
-                return true;
+            { this.username = username; return true; }
             else
-                return false;
+            { return false; }            
         }
 
 
@@ -114,7 +115,7 @@ namespace TodoList_App
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
-                { ManageTasks("Add"); Redirection("TasksTodoPage"); }
+                { _model.CreateUser(username, password); Redirection("TasksTodoPage"); } //ManageTasks("Add"); 
                 else
                 { MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas."); }
             }
@@ -131,7 +132,7 @@ namespace TodoList_App
             {
                 string[] tab = data.Split(' ');
 
-                if (tab.Length > 2) // Check the number of word in the variable before adding it
+                if (tab.Length >= 2) // Check the number of word in the variable before adding it
                 {
                     _model.AddTask(data);
                 }
@@ -144,6 +145,11 @@ namespace TodoList_App
             {
                 MessageBox.Show("Votre tâche n'est pas suffisamment fournie pour que nous la considérions.");
             }
+        }
+
+        public void EmptyUserInsert (TextBox insert)
+        {
+            insert.Text = null; //
         }
 
         public void ManageTasks (string name)
@@ -168,9 +174,9 @@ namespace TodoList_App
             _model.EditTask (newName, previousName);
         }
 
-        public List<string> DisplayTasks()
+        public List<string> DisplayTasks(bool done)
         {
-            return _model.DisplayTasks(_model.RetrieveUserID());
+            return _model.DisplayTasks(_model.RetrieveUserID(), done);
         }
 
         public void DeplaceTask(Label task)

@@ -42,6 +42,7 @@ namespace TodoList_App
             home.Controller = controller;
 
             //Initialization of classes in Controller.cs 
+            controller.HomePage = home;
             controller.UserCreationPage = userCreation;
             controller.TasksTodoPage = tasksTodo;
             controller.AddTaskPage = addTask;

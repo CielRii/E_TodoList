@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS t_user(
 CREATE TABLE IF NOT EXISTS t_task(
    task_id INT AUTO_INCREMENT,
    name VARCHAR(50) NOT NULL,
+   done BOOLEAN NOT NULL,
    user_id INT NOT NULL,
    user_id_1 INT NOT NULL,
    user_id_2 INT NOT NULL,

@@ -33,6 +33,7 @@ namespace TodoList_App
         private void addTaskBtn_Click(object sender, EventArgs e)
         {
             Controller.CheckTaskData(addTaskInsert.Text);
+            Controller.EmptyUserInsert(addTaskInsert);
         }
     }
 }

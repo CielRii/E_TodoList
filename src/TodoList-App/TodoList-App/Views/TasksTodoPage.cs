@@ -30,6 +30,7 @@ namespace TodoList_App
         private int indexTask = 1;
         private int x = 1;
         const int y = 1;
+        const bool done = false;
 
         // Declare the ContextMenuStrip control.
         private ContextMenuStrip contextMenuStrip;
@@ -40,7 +41,7 @@ namespace TodoList_App
 
         private void TasksTodoPage_Load(object sender, EventArgs e)
         {
-            List<string> tasksTodo = Controller.DisplayTasks();
+            List<string> tasksTodo = Controller.DisplayTasks(done);
 
             if (tasksTodo.Count > 0)
             {

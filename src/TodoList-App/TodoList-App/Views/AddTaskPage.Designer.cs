@@ -64,6 +64,7 @@
             this.addTaskInsert.Name = "addTaskInsert";
             this.addTaskInsert.Size = new System.Drawing.Size(100, 20);
             this.addTaskInsert.TabIndex = 2;
+            this.addTaskInsert.WordWrap = false;
             // 
             // tasksTodoBtn
             // 
@@ -80,7 +81,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 26);
             // 
             // toolStripMenuItem1
             // 
