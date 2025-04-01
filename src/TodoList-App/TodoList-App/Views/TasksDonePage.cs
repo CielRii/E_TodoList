@@ -1,24 +1,20 @@
 ﻿///ETML
 ///Author: Sarah Dongmo
 ///Creation date: 17.03.25
-///Last modification: 31.03.25
+///Last modification: 02.04.25
 ///Description : this page display all the tasks that were done by the user.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace TodoList_App
 {
     public partial class TasksDonePage : Form
     {
+        // Reference to the controller
         public Controller Controller { get; set; }
 
         private Label taskDoneLbl;
@@ -27,19 +23,28 @@ namespace TodoList_App
         private bool firstClick = false;
         private bool deleteStatus = false;
 
-        const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25, PANEL_SIZE = 40; //Label height and width
+        private const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25; //Label height and width
         private int indexTask = 1;
-        private int x = 1;
-        const int y = 1;
-        const bool done = true;
+        private const int x = 1;
+        private int y = 1;
+        private const bool done = true;
 
         // Declare the ContextMenuStrip control.
         private ContextMenuStrip contextMenuStrip;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public TasksDonePage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TasksDonePage_Load(object sender, EventArgs e)
         {
             tasksDone = Controller.DisplayTasks(done);
@@ -55,13 +60,18 @@ namespace TodoList_App
                     taskDoneLbl.Location = new Point(x, y);
                     taskDoneLbl.Name = "taskDoneLbl" + indexTask;
                     taskDoneLbl.Text = tasksDone[j];
-                    x += LABEL_HEIGHT + 10;
+                    y += LABEL_HEIGHT + 10;
                     tasksDoneList.Controls.Add(taskDoneLbl);
                     indexTask++;
                 }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void taskDoneLbl_Click(object sender, EventArgs e)
         {
             if (!firstClick)
@@ -69,11 +79,9 @@ namespace TodoList_App
                 // Create a new ContextMenuStrip control.
                 contextMenuStrip = new ContextMenuStrip();
 
-                // Attach an event handler for the 
-                // ContextMenuStrip control's Opening event.
-
+                // Attach an event handler for the ContextMenuStrip control's Opening event.
                 ToolStrip ctrl = new ToolStrip();
-                //ctrl.Dock = DockStyle.Right;
+                
                 string[] taskOptions = new string[] { "1.Supprimer définitivement la tâche", "2.Marquer la tâche comme non terminée" };
 
 
@@ -95,19 +103,22 @@ namespace TodoList_App
                 closeBtn.Visible = true;
                 closeBtn.Click += new EventHandler(closeBtn_Click);
 
-                // Assign the ContextMenuStrip to the form's 
-                // ContextMenuStrip property.
+                // Assign the ContextMenuStrip to the form's ContextMenuStrip property.
                 ContextMenuStrip = contextMenuStrip;
 
                 // Add the ToolStrip control to the Controls collection.
-                this.Controls.Add(ctrl);
+                Controls.Add(ctrl);
                 // Add the MenuStrip control last. This is important for correct placement in the z-order.
-                this.Controls.Add(options);
+                Controls.Add(options);
                 firstClick = true;
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteTask_Click(object sender, EventArgs e)
         {
             DialogResult confirmSuppression = MessageBox.Show("Êtes-vous de vouloir supprimer cette tâche ?", "Confirmation avant suppression", MessageBoxButtons.YesNo);
@@ -126,39 +137,55 @@ namespace TodoList_App
                 taskDoneLbl.Visible = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void unmarkTaskAsDone_Click(object sender, EventArgs e)
         {
             Label lbl = new Label();
-            lbl.Text = taskDoneLbl.Text; //
+            lbl.Text = taskDoneLbl.Text;
             lbl.Visible = true;
             Controller.DeplaceTask(lbl, false);
             removeTask();
-            //taskDoneLbl.Visible = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void removeTask()
         {
             string[] index = Regex.Split(taskDoneLbl.Name, @"\D+");
             foreach (string currentIndex in index)
             {
-                tasksDone.RemoveAt(Convert.ToInt32(currentIndex));
+                int i;
+                if (int.TryParse(currentIndex, out i))
+                {
+                    tasksDone.RemoveAt(i);
+                }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closeBtn_Click(object sender, EventArgs e)
         {
-            //ContextMenuStrip = null;
-            //ContextMenuStrip.Close();
-
-            //ContextMenuStrip.Hide();
             ContextMenuStrip.Visible = false;
-
             closeBtn.Visible = false;
         }
 
-        private void tasksDoneBtn_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tasksTodoBtn_Click(object sender, EventArgs e)
         {
-            Controller.Redirection("tasksDonePage");
+            Controller.Redirection("tasksTodoPage");
             Hide();
         }
     }

@@ -1,22 +1,16 @@
 ﻿///ETML
 ///Author: Sarah Dongmo
 ///Creation date: 17.03.25
-///Last modification: 31.03.25
-///Description : 
+///Last modification: 02.04.25
+///Description : application's entry point
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TodoList_App
 {
     internal static class Program
     {
-        /// <summary>
-        /// Entry point of the application
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -34,7 +28,7 @@ namespace TodoList_App
             AddTaskPage addTask = new AddTaskPage();
             TasksDonePage tasksDone = new TasksDonePage();
 
-            //Initialization of Controller in all page depending on it
+            //Controller's initialization of all page depending on it
             userCreation.Controller = controller;
             tasksTodo.Controller = controller;
             addTask.Controller = controller;
@@ -42,7 +36,6 @@ namespace TodoList_App
             home.Controller = controller;
 
             //Initialization of classes in Controller.cs 
-            controller.HomePage = home;
             controller.UserCreationPage = userCreation;
             controller.TasksTodoPage = tasksTodo;
             controller.AddTaskPage = addTask;

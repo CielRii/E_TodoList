@@ -44,7 +44,7 @@
             this.tasksTodoBtn.TabIndex = 0;
             this.tasksTodoBtn.Text = "<- Voir les tâches à faire";
             this.tasksTodoBtn.UseVisualStyleBackColor = true;
-            this.tasksTodoBtn.Click += new System.EventHandler(this.tasksDoneBtn_Click);
+            this.tasksTodoBtn.Click += new System.EventHandler(this.tasksTodoBtn_Click);
             // 
             // tasksDoneTitle
             // 

@@ -1,41 +1,53 @@
 ﻿///ETML
 ///Author: Sarah Dongmo
 ///Creation date: 17.03.25
-///Last modification: 31.03.25
+///Last modification: 02.04.25
 ///Description : this is the first page the user see when entering in the app.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TodoList_App
 {
     public partial class HomePage : Form
     {
+        // Reference to the controller
         public Controller Controller { get; set; }
        
-        public HomePage() //UserCreationPage creation, TasksTodoPage tasksTodo, AddTaskPage addTask, TasksDonePage tasksDone
+        /// <summary>
+        /// 
+        /// </summary>
+        public HomePage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HomePage_Load(object sender, EventArgs e)
         {
-            Controller.ShareAppID(); //
+            Controller.ShareAppID();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createAccountBtn_Click(object sender, EventArgs e)
         {
             Controller.Redirection("UserCreationPage");
             Hide();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void connexionBtn_Click(object sender, EventArgs e)
         {
             Controller.CheckLogin(userNameInsert.Text, passwordInsert.Text);

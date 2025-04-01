@@ -1,16 +1,13 @@
 ﻿///ETML
 ///Author: Sarah Dongmo
 ///Creation date: 20.03.25
-///Last modification: 31.03.25
+///Last modification: 02.04.25
 ///Description : this page helps for the management of the data include in the app.
 ///              It also helps for the connexion between the app and the database.
 
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
 namespace TodoList_App
 {
@@ -18,11 +15,6 @@ namespace TodoList_App
     {
         // Reference to the controller
         public Controller Controller { get; set; }
-
-        public string Server { get; set; }
-        public string DatabaseName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
 
         public MySqlConnection Connection { get; set; }
 
@@ -32,6 +24,10 @@ namespace TodoList_App
         private MySqlDataReader dataReader;
         public int userID;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Model Instance()
         {
             if (_instance == null)
@@ -39,6 +35,10 @@ namespace TodoList_App
             return _instance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsConnect()
         {
             if (Connection == null)
@@ -56,16 +56,15 @@ namespace TodoList_App
                 }
 
             }
-            // if (String.IsNullOrEmpty(databaseName))
-            // return false;
             return true;
         }
 
-        public void Close()
-        {
-            Connection.Close();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool CheckLogin(string username, string password)
         {
             if (!IsConnect()) return false;
@@ -93,11 +92,20 @@ namespace TodoList_App
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int RetrieveUserID()
         {
             return userID;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public bool CheckUserAvaible (string username)
         {
             if (!IsConnect()) return false;
@@ -120,6 +128,12 @@ namespace TodoList_App
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool CreateUser(string username, string password)
         {
             if (!IsConnect()) return false;
@@ -134,6 +148,12 @@ namespace TodoList_App
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="done"></param>
+        /// <returns></returns>
         public List<string> DisplayTasks(int userID, bool done)
         {
             List<string> tasks = new List<string>();
@@ -154,12 +174,17 @@ namespace TodoList_App
             return tasks;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool AddTask(string name)
         {
             if (!IsConnect()) return false;
 
-            string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4)" +
-                "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID);";
+            string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
+                "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, 0);";
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@userID", userID);
@@ -168,6 +193,12 @@ namespace TodoList_App
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <param name="previousName"></param>
+        /// <returns></returns>
         public bool EditTask(string newName, string previousName)
         {
             if (!IsConnect()) return false;
@@ -181,6 +212,11 @@ namespace TodoList_App
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool EraseTask(string name)
         {
             if (!IsConnect()) return false;
