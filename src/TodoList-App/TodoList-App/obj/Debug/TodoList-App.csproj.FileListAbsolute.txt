@@ -1,3 +1,2 @@
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySql.Data.dll
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Numerics.Vectors.dll

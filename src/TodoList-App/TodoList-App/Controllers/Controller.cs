@@ -145,24 +145,24 @@ namespace TodoList_App
             }
         }
 
-        private void HashPassword(string password) // 20 000
-        {
+        //private void HashPassword(string password)
+        //{
             
-            Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
-            byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
-            byte[] salt = PBKDF2.Salt;
-            writeHashToFile(password, salt, numberOfItterations); //Store the hashed password with the salt and number of itterations to check against future password entries
-        }
+        //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
+        //    byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
+        //    byte[] salt = PBKDF2.Salt;
+        //    writeHashToFile(password, salt, numberOfItterations); //Store the hashed password with the salt and number of itterations to check against future password entries
+        //}
 
-        private bool checkPassword(string userName, string userPassword, int numberOfItterations)
-        {
-            byte[] usersHash = getUserHashFromFile(userName);
-            byte[] userSalt = getUserSaltFromFile(userName);
-            Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(userPassword, userSalt, numberOfItterations);    //Hash the password with the users salt
-            byte[] hashedPassword = PBKDF2.GetBytes(20);    //Returns a 20 byte hash            
-            bool passwordsMach = comparePasswords(usersHash, hashedPassword);    //Compares byte arrays
-            return passwordsMach;
-        }
+        //private bool checkPassword(string userName, string userPassword, int numberOfItterations)
+        //{
+        //    byte[] usersHash = getUserHashFromFile(userName);
+        //    byte[] userSalt = getUserSaltFromFile(userName);
+        //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(userPassword, userSalt, numberOfItterations);    //Hash the password with the users salt
+        //    byte[] hashedPassword = PBKDF2.GetBytes(20);    //Returns a 20 byte hash            
+        //    bool passwordsMach = comparePasswords(usersHash, hashedPassword);    //Compares byte arrays
+        //    return passwordsMach;
+        //}
 
         private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
         {

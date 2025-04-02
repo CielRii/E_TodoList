@@ -185,7 +185,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void tasksTodoBtn_Click(object sender, EventArgs e)
         {
-            Controller.Redirection("tasksTodoPage");
+            Controller.Redirection("TasksTodoPage");
             Hide();
         }
     }
