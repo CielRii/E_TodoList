@@ -18,3 +18,4 @@ INSERT INTO `t_task` (task_id, name, user_id, user_id_1, user_id_2, user_id_3, u
 (NULL, "Planifier les vacances", 4, 4, 4, 4, 4),
 (NULL, "Écrire un article de blog", 5, 5, 5, 5, 5),
 (NULL, "Faire une présentation PowerPoint", 5, 5, 5, 5, 5);
+

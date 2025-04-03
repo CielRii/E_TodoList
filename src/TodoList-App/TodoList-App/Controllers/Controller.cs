@@ -243,9 +243,9 @@ namespace TodoList_App
         public void DeplaceTask(Label task, bool done)
         {
             if (done)
-                TasksDonePage.tasksDoneList.Controls.Add(task);
+                _model.DeplaceTask(task.Text, done);
             else
-                TasksTodoPage.tasksTodoList.Controls.Add(task);
+                _model.DeplaceTask(task.Text, done);
         }
     }
 }

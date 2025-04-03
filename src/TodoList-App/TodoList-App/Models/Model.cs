@@ -228,5 +228,20 @@ namespace TodoList_App
             cmd.ExecuteNonQuery();
             return true;
         }
+
+        public bool DeplaceTask(string name, bool done)
+        {
+            if (!IsConnect()) return false;
+
+            string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
+                "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
+            cmd = new MySqlCommand(query, Connection);
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@done", done);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            return true;
+        }
     }
 }
