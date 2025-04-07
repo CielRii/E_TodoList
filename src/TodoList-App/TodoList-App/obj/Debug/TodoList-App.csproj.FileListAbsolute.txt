@@ -1,7 +1,10 @@
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySql.Data.dll
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Google.Protobuf.pdb
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.IO.Pipelines.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.exe.config
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.pdb
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\BouncyCastle.Cryptography.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Google.Protobuf.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4os.Compression.LZ4.dll
@@ -21,20 +24,16 @@ C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Sy
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Threading.Tasks.Extensions.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\ZstdSharp.dll
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\BouncyCastle.Cryptography.xml
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Google.Protobuf.pdb
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Google.Protobuf.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4os.Compression.LZ4.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4os.Compression.LZ4.Streams.xml
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\K4os.Hash.xxHash.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySql.Data.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\MySqlConnector.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Buffers.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Configuration.ConfigurationManager.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Diagnostics.DiagnosticSource.xml
-C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.IO.Pipelines.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Memory.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
@@ -52,3 +51,4 @@ C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\To
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.csproj.CopyComplete
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.exe
 C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\obj\Debug\TodoList-App.pdb
+C:\Users\sardongmo\Desktop\E_TodoList\src\TodoList-App\TodoList-App\bin\Debug\TodoList-App.pdb

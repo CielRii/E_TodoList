@@ -69,9 +69,9 @@
             // 
             // tasksDoneList
             // 
-            this.tasksDoneList.Location = new System.Drawing.Point(193, 118);
+            this.tasksDoneList.Location = new System.Drawing.Point(270, 116);
             this.tasksDoneList.Name = "tasksDoneList";
-            this.tasksDoneList.Size = new System.Drawing.Size(414, 214);
+            this.tasksDoneList.Size = new System.Drawing.Size(266, 211);
             this.tasksDoneList.TabIndex = 6;
             // 
             // TasksDonePage

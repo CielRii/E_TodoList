@@ -112,7 +112,7 @@ namespace TodoList_App
         /// <returns></returns>
         public bool CheckUserAvaible (string username)
         {
-            if (_model.CheckUserAvaible(username))
+            if (_model.CheckUserAvaible(username)) //
             { this.username = username; return true; }
             else
             { return false; }            
@@ -130,7 +130,7 @@ namespace TodoList_App
             Regex digit = new Regex("([0-9])");
             Regex specials = new Regex("([#~%*])");
 
-            if (password.Length == 8 && upperCase.Matches(password).Count >= 1 && lowerCase.Matches(password).Count >= 1 &&
+            if (password.Length >= 8 && upperCase.Matches(password).Count >= 1 && lowerCase.Matches(password).Count >= 1 &&
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
@@ -147,7 +147,7 @@ namespace TodoList_App
 
         //private void HashPassword(string password)
         //{
-            
+
         //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
         //    byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
         //    byte[] salt = PBKDF2.Salt;
@@ -177,13 +177,14 @@ namespace TodoList_App
         /// <param name="data"></param>
         public void CheckTaskData (string data)
         {
-            if (!string.IsNullOrEmpty(data)) 
+            if (!string.IsNullOrEmpty(data))
             {
                 string[] tab = data.Split(' ');
 
                 if (tab.Length >= 2) // Check the number of word in the variable before adding it
                 {
-                    _model.AddTask(data);
+                    if (_model.AddTask(data))
+                        DisplayTasks(false);
                 }
                 else
                 {
@@ -200,9 +201,10 @@ namespace TodoList_App
         /// 
         /// </summary>
         /// <param name="insert"></param>
-        public void EmptyUserInsert (TextBox insert)
+        public void EmptyUserInsert (TextBox insert, ref Label otherInsert)
         {
             insert.Text = null;
+            //otherInsert = null;
         }
 
         /// <summary>

@@ -19,9 +19,9 @@ namespace TodoList_App
 
         private Label taskDoneLbl;
 
-        private List<string> tasksDone;
-        private bool firstClick = false;
-        private bool deleteStatus = false;
+        private List<string> tasksDone; //
+        private bool firstClick = false; //
+        private bool deleteStatus = false; //
 
         private const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25; //Label height and width
         private int indexTask = 1;
@@ -47,6 +47,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void TasksDonePage_Load(object sender, EventArgs e)
         {
+            Refresh();
             tasksDone = Controller.DisplayTasks(done);
 
             if (tasksDone.Count > 0)

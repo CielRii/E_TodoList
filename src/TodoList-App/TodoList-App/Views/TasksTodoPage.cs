@@ -30,6 +30,7 @@ namespace TodoList_App
         private const int x = 1;
         private int y = 1;
         private const bool done = false;
+        private bool firstLoad = false;
 
         // Declare the ContextMenuStrip control.
         private ContextMenuStrip contextMenuStrip;
@@ -49,6 +50,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void TasksTodoPage_Load(object sender, EventArgs e)
         {
+            Refresh();
             tasksTodo = Controller.DisplayTasks(done);
 
             if (tasksTodo.Count > 0)
@@ -67,6 +69,8 @@ namespace TodoList_App
                     indexTask++;
                 }
             }
+
+            firstLoad = true;
         }
 
         /// <summary>
@@ -76,6 +80,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void taskTodoLbl_Click(object sender, EventArgs e)
         {
+            Refresh();
             if (!firstClick)
             {
                 // Create a new ContextMenuStrip control.
@@ -128,6 +133,7 @@ namespace TodoList_App
             lbl.Text = taskTodoLbl.Text;
             lbl.Visible = true;
             Controller.DeplaceTask(lbl, true);
+            Controller.EmptyUserInsert();
             removeTask();
         }
 

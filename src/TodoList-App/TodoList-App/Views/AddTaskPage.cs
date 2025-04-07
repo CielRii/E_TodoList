@@ -42,6 +42,7 @@ namespace TodoList_App
         {
             Controller.CheckTaskData(addTaskInsert.Text);
             Controller.EmptyUserInsert(addTaskInsert);
+            //
         }
     }
 }

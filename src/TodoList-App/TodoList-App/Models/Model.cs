@@ -54,9 +54,13 @@ namespace TodoList_App
                 {
                     System.Windows.Forms.MessageBox.Show(e.Message);
                 }
-
             }
             return true;
+        }
+
+        public void DisConnect()
+        {
+            Connection.Close();
         }
 
         /// <summary>
@@ -89,6 +93,7 @@ namespace TodoList_App
             }
 
             dataReader.Close();
+            DisConnect();
             return false;
         }
 
@@ -110,18 +115,17 @@ namespace TodoList_App
         {
             if (!IsConnect()) return false;
 
-            int i = 0;
             string query = "SELECT username FROM t_user;";
             cmd = new MySqlCommand(query, Connection);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                if (dataReader.GetString(i) == username)
+                if (dataReader.GetString(0) == username)
                 {
                     dataReader.Close();
+                    DisConnect();
                     return false;
                 }
-                i++;
             }
 
             dataReader.Close();
@@ -190,6 +194,7 @@ namespace TodoList_App
             cmd.Parameters.AddWithValue("@userID", userID);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
+            DisplayTasks(userID, false);
             return true;
         }
 
