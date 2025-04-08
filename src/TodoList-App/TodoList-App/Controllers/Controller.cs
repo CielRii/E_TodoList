@@ -22,7 +22,7 @@ namespace TodoList_App
         // To save new user username after checking avaibility
         private string username;
         private const int numberOfItterations = 20000;
-        private List<string> tasksTodo;
+        private List<string> tasks;
         private const bool done = false;
         private byte[] salt;
 
@@ -74,24 +74,26 @@ namespace TodoList_App
                     UserCreationPage.Show();
                     break;
                 case "TasksTodoPage":
-                    ShowTasksToDisplay();
+                    ShowTasksToDisplay(false);
                     TasksTodoPage.Show();
                     break;
                 case "AddTaskPage":
                     AddTaskPage.Show();
                     break;
                 case "TasksDonePage":
+                    ShowTasksToDisplay(true);
                     TasksDonePage.Show();
                     break;
             }
         }
-
-
-
-        public void ShowTasksToDisplay()
+        
+        public void ShowTasksToDisplay(bool done)
         {
-            tasksTodo = DisplayTasks(done);
-            TasksTodoPage.DisplayTasks(tasksTodo);
+            tasks = DisplayTasks(done);
+            if (!done)
+                TasksTodoPage.DisplayTasks(tasks);
+            else
+                TasksDonePage.DisplayTasks(tasks);
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace TodoList_App
         {
             if (username != string.Empty && password != string.Empty)
             {
-                if (_model.CheckLogin (username, HashPassword(password, false)))
+                if (_model.CheckLogin (username, HashPassword(username, password, false)))
                 {
                     Redirection("TasksTodoPage");
                 }
@@ -141,28 +143,37 @@ namespace TodoList_App
             Regex upperCase = new Regex("([A-Z])");
             Regex lowerCase = new Regex("([a-z])");
             Regex digit = new Regex("([0-9])");
-            Regex specials = new Regex("([#~%*])");
+            Regex specials = new Regex("([-/#~%*])");
 
             if (password.Length >= 8 && upperCase.Matches(password).Count >= 1 && lowerCase.Matches(password).Count >= 1 &&
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
-                { _model.CreateUser(username, HashPassword(password, true)); Redirection("TasksTodoPage"); }
+                { _model.CreateUser(username, HashPassword(username, password, true), salt.ToString()); Redirection("TasksTodoPage"); } //
                 else
                 { MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas."); }
             }
             else
             {
+                MessageBox.Show($"Upper: {upperCase.Matches(password).Count}, Lower: {lowerCase.Matches(password).Count}, Digit: {digit.Matches(password).Count}, Special: {specials.Matches(password).Count}");
+
                 MessageBox.Show("Votre mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, " +
                 "un lettre majuscule, une lettre miniscule et un caractère spécial.");
             }
         }
 
-        public string HashPassword(string password, bool create)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="create"></param>
+        /// <returns></returns>
+        public string HashPasswordMySqlCompatible(string username,string password, bool create)
         {
             if (!create)
             { 
-                salt = Encoding.UTF8.GetBytes(_model.GetSalt()); 
+                salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); 
             }    
             else
             { 
@@ -207,38 +218,69 @@ namespace TodoList_App
             }
         }
 
-        //public 
 
-        //private void HashPassword(string password)
-        //{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <param name="create"></param>
+    /// <returns></returns>
+    public string HashPassword(string username, string password, bool create)
+    {
+        salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
+        using (var sha256 = SHA256.Create())
+        {
+            // Concaténer les deux chaînes en tant que texte
+            string combined = password + salt;
 
-        //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
-        //    byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
-        //    byte[] salt = PBKDF2.Salt;
-        //    writeHashToFile(password, salt, numberOfItterations); //Store the hashed password with the salt and number of itterations to check against future password entries
-        //}
+            // Encoder la chaîne combinée en UTF-8
+            byte[] inputBytes = Encoding.UTF8.GetBytes(combined);
 
-        //private bool checkPassword(string userName, string userPassword, int numberOfItterations)
-        //{
-        //    byte[] usersHash = getUserHashFromFile(userName);
-        //    byte[] userSalt = getUserSaltFromFile(userName);
-        //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(userPassword, userSalt, numberOfItterations);    //Hash the password with the users salt
-        //    byte[] hashedPassword = PBKDF2.GetBytes(20);    //Returns a 20 byte hash            
-        //    bool passwordsMach = comparePasswords(usersHash, hashedPassword);    //Compares byte arrays
-        //    return passwordsMach;
-        //}
+            // Calculer le hash
+            byte[] hashBytes = sha256.ComputeHash(inputBytes);
 
-        //private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            // Convertir en chaîne hexadécimale (comme MySQL le fait)
+            StringBuilder sb = new StringBuilder();
+            foreach (var b in hashBytes)
+                sb.Append(b.ToString("x2")); // format hexadécimal minuscule
+            return sb.ToString();
+        }
+    }
 
 
+    //public 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
+    //private void HashPassword(string password)
+    //{
+
+    //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
+    //    byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
+    //    byte[] salt = PBKDF2.Salt;
+    //    writeHashToFile(password, salt, numberOfItterations); //Store the hashed password with the salt and number of itterations to check against future password entries
+    //}
+
+    //private bool checkPassword(string userName, string userPassword, int numberOfItterations)
+    //{
+    //    byte[] usersHash = getUserHashFromFile(userName);
+    //    byte[] userSalt = getUserSaltFromFile(userName);
+    //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(userPassword, userSalt, numberOfItterations);    //Hash the password with the users salt
+    //    byte[] hashedPassword = PBKDF2.GetBytes(20);    //Returns a 20 byte hash            
+    //    bool passwordsMach = comparePasswords(usersHash, hashedPassword);    //Compares byte arrays
+    //    return passwordsMach;
+    //}
+
+    //private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
+    //{
+    //    throw new NotImplementedException();
+    //}
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
         public void CheckTaskData (string data)
         {
             if (!string.IsNullOrEmpty(data))

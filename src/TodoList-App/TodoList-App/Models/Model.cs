@@ -107,6 +107,11 @@ namespace TodoList_App
             return userID;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public string GetSalt(string username)
         {
             if (!IsConnect()) return null;
@@ -117,9 +122,12 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                //Return salt
-                return dataReader.GetString(0);
+                salt = dataReader.GetString(0);
             }
+
+            dataReader.Close();
+            DisConnect();
+            return salt;
         }
 
         /// <summary>
@@ -154,15 +162,16 @@ namespace TodoList_App
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public bool CreateUser(string username, string password)
+        public bool CreateUser(string username, string password, string salt)
         {
             if (!IsConnect()) return false;
 
-            string query = "INSERT INTO `t_user`(user_id, username, password) VALUES(NULL, @username, @password);";
+            string query = "INSERT INTO `t_user`(user_id, username, password) VALUES(NULL, @username, @password, @salt);";
 
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@salt", salt);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
             return true;
@@ -183,7 +192,7 @@ namespace TodoList_App
                "WHERE u.user_id = @userID && t.done = @done ;";
 
             cmd = new MySqlCommand(query, Connection);
-            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@userID", 1);
             cmd.Parameters.AddWithValue("@done", done);
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
@@ -207,7 +216,7 @@ namespace TodoList_App
                 "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, 0);";
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@name", name);
-            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@userID", 1);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
             DisplayTasks(userID, false);
@@ -258,7 +267,7 @@ namespace TodoList_App
                 "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
             cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("@name", name);
-            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@userID", 1);
             cmd.Parameters.AddWithValue("@done", done);
             cmd.Prepare();
             cmd.ExecuteNonQuery();

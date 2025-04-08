@@ -47,7 +47,8 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void TasksDonePage_Load(object sender, EventArgs e)
         {
-            Refresh();
+            tasksDoneList.Controls.Clear();
+            y = 1;
             tasksDone = Controller.DisplayTasks(done);
 
             if (tasksDone.Count > 0)
@@ -68,6 +69,30 @@ namespace TodoList_App
             }
         }
 
+
+        public void DisplayTasks(List<string> tasksTodo)
+        {
+            tasksDoneList.Controls.Clear();
+            y = 1;
+            tasksDone = Controller.DisplayTasks(done);
+
+            if (tasksDone.Count > 0)
+            {
+                for (int j = 0; j < tasksDone.Count; j++)
+                {
+                    taskDoneLbl = new Label();
+                    taskDoneLbl.Click += new EventHandler(taskDoneLbl_Click); //Add of an event to handle further operations
+                    taskDoneLbl.Height = LABEL_HEIGHT;
+                    taskDoneLbl.Width = LABEL_WIDTH;
+                    taskDoneLbl.Location = new Point(x, y);
+                    taskDoneLbl.Name = "taskDoneLbl" + indexTask;
+                    taskDoneLbl.Text = tasksDone[j];
+                    y += LABEL_HEIGHT + 10;
+                    tasksDoneList.Controls.Add(taskDoneLbl);
+                    indexTask++;
+                }
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

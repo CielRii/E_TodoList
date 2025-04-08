@@ -46,6 +46,7 @@ namespace TodoList_App
         public void DisplayTasks(List<string> tasksTodo)
         {
             tasksTodoList.Controls.Clear();
+            y = 0;
             if (tasksTodo.Count > 0)
             {
                 for (int j = 0; j < tasksTodo.Count; j++)
@@ -65,7 +66,6 @@ namespace TodoList_App
             firstLoad = true;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -73,7 +73,6 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void taskTodoLbl_Click(object sender, EventArgs e)
         {
-            Refresh();
             if (!firstClick)
             {
                 // Create a new ContextMenuStrip control.
@@ -176,7 +175,6 @@ namespace TodoList_App
             switch (confirmSuppression)
             {
                 case DialogResult.Yes:
-
                     removeTask();
                     break;
                 case DialogResult.No:
