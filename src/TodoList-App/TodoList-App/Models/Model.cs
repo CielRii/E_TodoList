@@ -23,6 +23,7 @@ namespace TodoList_App
         private MySqlCommand cmd;
         private MySqlDataReader dataReader;
         public int userID;
+        public string salt;
 
         /// <summary>
         /// 
@@ -104,6 +105,21 @@ namespace TodoList_App
         public int RetrieveUserID()
         {
             return userID;
+        }
+
+        public string GetSalt(string username)
+        {
+            if (!IsConnect()) return null;
+
+            string query = "SELECT salt FROM t_user WHERE `username` = @username;"; //Secure request
+            cmd = new MySqlCommand(query, Connection); //Send the request to the database
+            cmd.Parameters.AddWithValue("@username", username); //Bind the parameters
+            dataReader = cmd.ExecuteReader();
+            while (dataReader.Read())
+            {
+                //Return salt
+                return dataReader.GetString(0);
+            }
         }
 
         /// <summary>

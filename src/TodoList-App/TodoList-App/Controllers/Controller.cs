@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -21,6 +22,9 @@ namespace TodoList_App
         // To save new user username after checking avaibility
         private string username;
         private const int numberOfItterations = 20000;
+        private List<string> tasksTodo;
+        private const bool done = false;
+        private byte[] salt;
 
         // Reference to all the app page excluding 
         public UserCreationPage UserCreationPage { get; set; }
@@ -70,6 +74,7 @@ namespace TodoList_App
                     UserCreationPage.Show();
                     break;
                 case "TasksTodoPage":
+                    ShowTasksToDisplay();
                     TasksTodoPage.Show();
                     break;
                 case "AddTaskPage":
@@ -81,6 +86,14 @@ namespace TodoList_App
             }
         }
 
+
+
+        public void ShowTasksToDisplay()
+        {
+            tasksTodo = DisplayTasks(done);
+            TasksTodoPage.DisplayTasks(tasksTodo);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -90,7 +103,7 @@ namespace TodoList_App
         {
             if (username != string.Empty && password != string.Empty)
             {
-                if (_model.CheckLogin (username, password))
+                if (_model.CheckLogin (username, HashPassword(password, false)))
                 {
                     Redirection("TasksTodoPage");
                 }
@@ -134,7 +147,7 @@ namespace TodoList_App
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
-                { _model.CreateUser(username, password); Redirection("TasksTodoPage"); }
+                { _model.CreateUser(username, HashPassword(password, true)); Redirection("TasksTodoPage"); }
                 else
                 { MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas."); }
             }
@@ -144,6 +157,57 @@ namespace TodoList_App
                 "un lettre majuscule, une lettre miniscule et un caractère spécial.");
             }
         }
+
+        public string HashPassword(string password, bool create)
+        {
+            if (!create)
+            { 
+                salt = Encoding.UTF8.GetBytes(_model.GetSalt()); 
+            }    
+            else
+            { 
+                Random rnd = new Random();
+                int length = rnd.Next(12, 20);
+                int rndValue;
+                string rndSalt = "";
+                char letter;
+                for (int i = 0; i < length; i++)
+                {
+                    // Generating a random number
+                    rndValue = rnd.Next(0, 26);
+
+                    // Generating random character by converting 
+                    // the random number into character
+                    letter = Convert.ToChar(rndValue + 65);
+
+                    // Appending the letter to string
+                    rndSalt = rndSalt + letter;
+                }
+                salt = Encoding.UTF8.GetBytes(rndSalt); 
+            }
+
+            using (var sha256 = new SHA256Managed())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+
+                // Concatenate password and salt
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+                // Hash the concatenated password and salt
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                // Concatenate the salt and hashed password for storage
+                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
+                Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
+                Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
+
+                return Convert.ToBase64String(hashedPasswordWithSalt);
+            }
+        }
+
+        //public 
 
         //private void HashPassword(string password)
         //{
@@ -164,10 +228,10 @@ namespace TodoList_App
         //    return passwordsMach;
         //}
 
-        private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
-        {
-            throw new NotImplementedException();
-        }
+        //private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
 
@@ -201,7 +265,7 @@ namespace TodoList_App
         /// 
         /// </summary>
         /// <param name="insert"></param>
-        public void EmptyUserInsert (TextBox insert, ref Label otherInsert)
+        public void EmptyUserInsert (dynamic insert = null)
         {
             insert.Text = null;
             //otherInsert = null;

@@ -43,16 +43,9 @@ namespace TodoList_App
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TasksTodoPage_Load(object sender, EventArgs e)
+        public void DisplayTasks(List<string> tasksTodo)
         {
-            Refresh();
-            tasksTodo = Controller.DisplayTasks(done);
-
+            tasksTodoList.Controls.Clear();
             if (tasksTodo.Count > 0)
             {
                 for (int j = 0; j < tasksTodo.Count; j++)
@@ -69,9 +62,9 @@ namespace TodoList_App
                     indexTask++;
                 }
             }
-
             firstLoad = true;
         }
+
 
         /// <summary>
         /// 
@@ -133,7 +126,7 @@ namespace TodoList_App
             lbl.Text = taskTodoLbl.Text;
             lbl.Visible = true;
             Controller.DeplaceTask(lbl, true);
-            Controller.EmptyUserInsert();
+            Controller.EmptyUserInsert(insert:lbl);
             removeTask();
         }
 
