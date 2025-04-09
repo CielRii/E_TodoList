@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,14 +24,42 @@ namespace TodoList_App
         private string username;
         private const int numberOfItterations = 20000;
         private List<string> tasks;
-        private const bool done = false;
+        private bool done;
         private byte[] salt;
+
+        const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25; //Label height and width
+        private int indexTask = 0;
+        private const int x = 1;
+        private int y = 1;
+
+
+        private List<string> tasksTodo;
+        private Label taskLbl;
+        private TextBox taskTodoTxt;
+        private Panel tasksList;
+        private bool firstClick = false;
+        private string previousName;
+        private string newName;
+
+        private bool firstLoad = false;
+
+        // Declare the ContextMenuStrip control.
+        private ContextMenuStrip contextMenuStrip;
+        private PictureBox closeBtn;
+        private MenuStrip options;
+
 
         // Reference to all the app page excluding 
         public UserCreationPage UserCreationPage { get; set; }
         public TasksTodoPage TasksTodoPage { get; set; }
         public AddTaskPage AddTaskPage { get; set; }
         public TasksDonePage TasksDonePage { get; set; }
+        public EventHandler taskLbl_Click { get; set; }
+        public EventHandler markTaskAsDone_Click { get; set; }
+        public EventHandler editTask_Click { get; set; }
+        public EventHandler deleteTask_Click { get; set; }
+        public KeyEventHandler taskTodoTxt_KeyDown { get; set; }
+        public EventHandler closeBtn_Click { get; set; }
 
         /// <summary>
         /// Constructor
@@ -74,26 +103,64 @@ namespace TodoList_App
                     UserCreationPage.Show();
                     break;
                 case "TasksTodoPage":
-                    ShowTasksToDisplay(false);
                     TasksTodoPage.Show();
+                    DisplayTasks();
                     break;
                 case "AddTaskPage":
                     AddTaskPage.Show();
                     break;
                 case "TasksDonePage":
-                    ShowTasksToDisplay(true);
                     TasksDonePage.Show();
+                    DisplayTasks();
                     break;
             }
         }
         
-        public void ShowTasksToDisplay(bool done)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tasksList"></param>
+        /// <param name="done"></param>
+        public void CurrentPageRecap(Panel tasksList, bool done)
         {
-            tasks = DisplayTasks(done);
-            if (!done)
-                TasksTodoPage.DisplayTasks(tasks);
-            else
-                TasksDonePage.DisplayTasks(tasks);
+            this.tasksList = tasksList;
+            this.done = done;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DisplayTasks()
+        {
+            tasksList.Controls.Clear();
+            y = 1;
+            tasks = SpecificTasksToDisplay();
+
+            if (tasks.Count > 0)
+            {
+                for (int j = 0; j < tasks.Count; j++)
+                {
+                    taskLbl = new Label();
+                    taskLbl.Click += new EventHandler(taskLbl_Click); //Add of an event to handle further operations
+                    taskLbl.Height = LABEL_HEIGHT;
+                    taskLbl.Width = LABEL_WIDTH;
+                    taskLbl.Location = new Point(x, y);
+                    taskLbl.Name = "taskTodoLbl" + indexTask;
+                    taskLbl.Text = tasks[j];
+                    y += LABEL_HEIGHT + 10;
+                    tasksList.Controls.Add(taskLbl);
+                    indexTask++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<string> SpecificTasksToDisplay()
+        {
+            return _model.DisplayTasks(_model.RetrieveUserID(), done);
         }
 
         /// <summary>
@@ -290,7 +357,7 @@ namespace TodoList_App
                 if (tab.Length >= 2) // Check the number of word in the variable before adding it
                 {
                     if (_model.AddTask(data))
-                        DisplayTasks(false);
+                        DisplayTasks();
                 }
                 else
                 {
@@ -313,16 +380,6 @@ namespace TodoList_App
             //otherInsert = null;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="newName"></param>
-        /// <param name="previousName"></param>
-        public void EditTask (string newName, string previousName)
-        {
-            if (newName != previousName)
-                _model.EditTask (newName, previousName);
-        }
 
         /// <summary>
         /// 
@@ -333,27 +390,144 @@ namespace TodoList_App
             _model.EraseTask(name);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="done"></param>
-        /// <returns></returns>
-        public List<string> DisplayTasks(bool done)
+
+        public void DisplayContextMenuStrip(PictureBox closeBtn)
         {
-            return _model.DisplayTasks(_model.RetrieveUserID(), done);
+            this.closeBtn = closeBtn;
+            if (!firstClick)
+            {
+                // Create a new ContextMenuStrip control.
+                contextMenuStrip = new ContextMenuStrip();
+
+                // Attach an event handler for the ContextMenuStrip control's Opening event.
+                ToolStrip ctrl = new ToolStrip();
+                string[] taskOptions = new string[] { "1.Marquer la tâche comme complète",
+                "2.Modifier la tâche", "3.Supprimer la tâche"};
+
+                // Create a new MenuStrip control and add a ToolStripMenuItem.
+                options = new MenuStrip();
+                foreach (var option in taskOptions)
+                {
+                    ToolStripMenuItem crud = new ToolStripMenuItem(option);
+                    if (option == "1.Marquer la tâche comme complète")
+                        crud.Click += new EventHandler(markTaskAsDone_Click); //Add of an event to handle further operations
+                    if (option == "2.Modifier la tâche")
+                        crud.Click += new EventHandler(editTask_Click); //Add of an event to handle further operations
+                    if (option == "3.Supprimer la tâche")
+                        crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handle further operations
+                    options.Items.Add(crud);
+                    options.Dock = DockStyle.Right;
+                    crud.DropDown = contextMenuStrip;
+                }
+
+                //Link the close button to the menu
+                closeBtn.ContextMenuStrip = contextMenuStrip;
+                closeBtn.Visible = true;
+                closeBtn.Click += new EventHandler(closeBtn_Click);
+
+                if (!done)
+                {
+                    // Assign the ContextMenuStrip to the form's ContextMenuStrip property.
+                    TasksTodoPage.ContextMenuStrip = contextMenuStrip;
+                    // Add the ToolStrip control to the Controls collection.
+                    TasksTodoPage.Controls.Add(ctrl);
+                    // Add the MenuStrip control last. This is important for correct placement in the z-order.
+                    TasksTodoPage.Controls.Add(options);
+                }
+                else
+                {
+                    // Assign the ContextMenuStrip to the form's ContextMenuStrip property.
+                    TasksDonePage.ContextMenuStrip = contextMenuStrip;
+                    // Add the ToolStrip control to the Controls collection.
+                    TasksDonePage.Controls.Add(ctrl);
+                    // Add the MenuStrip control last. This is important for correct placement in the z-order.
+                    TasksDonePage.Controls.Add(options);
+                }
+                firstClick = true;
+            }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="done"></param>
-        public void DeplaceTask(Label task, bool done)
+        public void MarkTaskAsDone(Label taskLbl)
+        {
+            Label lbl = new Label();
+            lbl.Text = taskLbl.Text;
+            lbl.Visible = true;
+            DeplaceTask(true);
+            EmptyUserInsert(insert: lbl);
+            RemoveTask(); //
+        }
+
+        public void EditTask()
+        {
+            previousName = taskLbl.Text;
+            taskTodoTxt = new TextBox();
+            taskTodoTxt.Text = taskLbl.Text;
+            taskTodoTxt.Location = taskLbl.Location;
+            taskTodoTxt.Visible = true;
+            taskLbl.Visible = false;
+            taskTodoTxt.KeyDown += taskTodoTxt_KeyDown;
+
+            TasksTodoPage.Controls.Add(taskTodoTxt);
+        }
+
+        public void EditTask(string newName, string previousName)
+        {
+            if (newName != previousName)
+                _model.EditTask(newName, previousName);
+        }
+
+        public void ControlUserInput(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                taskLbl.Text = taskTodoTxt.Text;
+                newName = taskLbl.Text;
+                taskLbl.Visible = true;
+                taskTodoTxt.Visible = false;
+                EditTask(newName, previousName);
+            }
+        }
+
+        public void DeleteTask()
+        {
+            DialogResult confirmSuppression = MessageBox.Show("Êtes-vous de vouloir supprimer cette tâche ?", "Confirmation avant suppression", MessageBoxButtons.YesNo);
+            switch (confirmSuppression)
+            {
+                case DialogResult.Yes:
+                    RemoveTask();
+                    break;
+                case DialogResult.No:
+
+                    break;
+            }
+        }
+
+        public void CloseContextMenuStrip()
+        {
+            closeBtn.Visible = false;
+            options.Hide();
+        }
+
+        public void RemoveTask()
+        {
+            string[] index = Regex.Split(taskLbl.Name, @"\D+");
+            foreach (string currentIndex in index)
+            {
+                int i;
+                if (int.TryParse(currentIndex, out i))
+                {
+                    tasksTodo.RemoveAt(i); //
+                }
+            }
+        }
+
+        public void DeplaceTask(bool done)
         {
             if (done)
-                _model.DeplaceTask(task.Text, done);
+                _model.DeplaceTask(taskLbl.Text, done);
             else
-                _model.DeplaceTask(task.Text, done);
+                _model.DeplaceTask(taskLbl.Text, done);
         }
+
     }
 }

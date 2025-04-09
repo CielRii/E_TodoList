@@ -49,7 +49,7 @@ namespace TodoList_App
         {
             tasksDoneList.Controls.Clear();
             y = 1;
-            tasksDone = Controller.DisplayTasks(done);
+            //tasksDone = Controller.DisplayTasks();
 
             if (tasksDone.Count > 0)
             {
@@ -70,11 +70,11 @@ namespace TodoList_App
         }
 
 
-        public void DisplayTasks(List<string> tasksTodo)
+        public void DisplayTasks()
         {
             tasksDoneList.Controls.Clear();
             y = 1;
-            tasksDone = Controller.DisplayTasks(done);
+           // tasksDone = Controller.DisplayTasks();
 
             if (tasksDone.Count > 0)
             {
@@ -173,7 +173,7 @@ namespace TodoList_App
             Label lbl = new Label();
             lbl.Text = taskDoneLbl.Text;
             lbl.Visible = true;
-            Controller.DeplaceTask(lbl, false);
+            Controller.DeplaceTask(false);
             removeTask();
         }
 
