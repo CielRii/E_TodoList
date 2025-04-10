@@ -45,12 +45,7 @@ namespace TodoList_App
         private void TasksTodoPage_Load(object sender, EventArgs e)
         {
             Controller.CurrentPageRecap(tasksTodoList, done);
-            Controller.taskLbl_Click = taskTodoLbl_Click;
-            Controller.markTaskAsDone_Click = markTaskAsDone_Click;
-            Controller.editTask_Click = editTask_Click;
-            Controller.taskTodoTxt_KeyDown = taskTodoTxt_KeyDown;
-            Controller.deleteTask_Click = deleteTask_Click;
-            Controller.closeBtn_Click = closeBtn_Click;
+            Controller.AssignEvents();
         }
 
         /// <summary>
@@ -70,7 +65,8 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void markTaskAsDone_Click(object sender, EventArgs e)
         {
-            Controller.MarkTaskAsDone(taskTodoLbl);
+            Controller.MarkTaskAsDone();
+            Controller.DisplayTasks();
         }
 
         /// <summary>
@@ -78,7 +74,7 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void editTask_Click(object sender, EventArgs e)
+        public void editTask_Click(object sender, EventArgs e)
         {
             Controller.EditTask();
         }
@@ -89,7 +85,7 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void taskTodoTxt_KeyDown(object sender, KeyEventArgs e)
+        public void taskTodoTxt_KeyDown(object sender, KeyEventArgs e)
         {
             Controller.ControlUserInput(e);
         }
@@ -99,9 +95,9 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteTask_Click(object sender, EventArgs e)
+        public void deleteTask_Click(object sender, EventArgs e)
         {
-            Controller.DeplaceTask(done);
+            Controller.DeplaceTask(true);
             Controller.DeleteTask();
         }
 
@@ -110,9 +106,16 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void closeBtn_Click(object sender, EventArgs e)
+        public void closeBtn_Click(object sender, EventArgs e)
         {
             Controller.CloseContextMenuStrip();
+            Controller.AssignEvents();
+            //Controller.taskLbl_Click = taskTodoLbl_Click;
+            //Controller.markTaskAsDone_Click = markTaskAsDone_Click;
+            //Controller.editTask_Click = editTask_Click;
+            //Controller.taskTodoTxt_KeyDown = taskTodoTxt_KeyDown;
+            //Controller.deleteTask_Click = deleteTask_Click;
+            //Controller.closeBtn_Click = closeBtn_Click;
         }
 
 
@@ -123,6 +126,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void addTaskBtn_Click(object sender, EventArgs e)
         {
+            Controller.CloseContextMenuStrip();
             Controller.Redirection("AddTaskPage");
             Hide();
         }
@@ -134,6 +138,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void tasksDoneBtn_Click(object sender, EventArgs e)
         {
+            Controller.CloseContextMenuStrip();
             Controller.Redirection("TasksDonePage");
             Hide();
         }

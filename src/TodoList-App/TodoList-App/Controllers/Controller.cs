@@ -37,11 +37,11 @@ namespace TodoList_App
         private Label taskLbl;
         private TextBox taskTodoTxt;
         private Panel tasksList;
-        private bool firstClick = false;
         private string previousName;
         private string newName;
 
-        private bool firstLoad = false;
+        private bool firstClick = false;
+        private bool open = false;
 
         // Declare the ContextMenuStrip control.
         private ContextMenuStrip contextMenuStrip;
@@ -54,12 +54,12 @@ namespace TodoList_App
         public TasksTodoPage TasksTodoPage { get; set; }
         public AddTaskPage AddTaskPage { get; set; }
         public TasksDonePage TasksDonePage { get; set; }
-        public EventHandler taskLbl_Click { get; set; }
-        public EventHandler markTaskAsDone_Click { get; set; }
-        public EventHandler editTask_Click { get; set; }
-        public EventHandler deleteTask_Click { get; set; }
-        public KeyEventHandler taskTodoTxt_KeyDown { get; set; }
-        public EventHandler closeBtn_Click { get; set; }
+        private EventHandler taskLbl_Click { get; set; }
+        private EventHandler markTaskAsDone_Click { get; set; }
+        private EventHandler editTask_Click { get; set; }
+        private EventHandler deleteTask_Click { get; set; }
+        private KeyEventHandler taskTodoTxt_KeyDown { get; set; }
+        private EventHandler closeBtn_Click { get; set; }
 
         /// <summary>
         /// Constructor
@@ -73,6 +73,16 @@ namespace TodoList_App
 
             _model.Controller = this;
             _home.Controller = this;
+        }
+
+        public void AssignEvent()
+        {
+            taskLbl_Click = TasksTodoPage.taskTodoLbl_Click;
+            markTaskAsDone_Click = TasksTodoPage.markTaskAsDone_Click;
+            editTask_Click = TasksTodoPage.editTask_Click;
+            taskTodoTxt_KeyDown = TasksTodoPage.taskTodoTxt_KeyDown;
+            deleteTask_Click = TasksTodoPage.deleteTask_Click;
+            closeBtn_Click = TasksTodoPage.closeBtn_Click;
         }
 
         /// <summary>
@@ -285,7 +295,6 @@ namespace TodoList_App
             }
         }
 
-
     /// <summary>
     /// 
     /// </summary>
@@ -295,54 +304,27 @@ namespace TodoList_App
     /// <returns></returns>
     public string HashPassword(string username, string password, bool create)
     {
-        salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
-        using (var sha256 = SHA256.Create())
-        {
-            // Concaténer les deux chaînes en tant que texte
-            string combined = password + salt;
+            salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
+            using (var sha256 = new SHA256Managed())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
-            // Encoder la chaîne combinée en UTF-8
-            byte[] inputBytes = Encoding.UTF8.GetBytes(combined);
+                // Concatenate password and salt
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
 
-            // Calculer le hash
-            byte[] hashBytes = sha256.ComputeHash(inputBytes);
+                // Hash the concatenated password and salt
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 
-            // Convertir en chaîne hexadécimale (comme MySQL le fait)
-            StringBuilder sb = new StringBuilder();
-            foreach (var b in hashBytes)
-                sb.Append(b.ToString("x2")); // format hexadécimal minuscule
-            return sb.ToString();
-        }
+                // Concatenate the salt and hashed password for storage
+                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
+                Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
+                Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
+
+                return Convert.ToBase64String(hashedPasswordWithSalt);
+            }
     }
-
-
-    //public 
-
-    //private void HashPassword(string password)
-    //{
-
-    //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(password, 8, numberOfItterations);    //Hash the password with a 8 byte salt
-    //    byte[] password = PBKDF2.GetBytes(20);    //Returns a 20 byte hash
-    //    byte[] salt = PBKDF2.Salt;
-    //    writeHashToFile(password, salt, numberOfItterations); //Store the hashed password with the salt and number of itterations to check against future password entries
-    //}
-
-    //private bool checkPassword(string userName, string userPassword, int numberOfItterations)
-    //{
-    //    byte[] usersHash = getUserHashFromFile(userName);
-    //    byte[] userSalt = getUserSaltFromFile(userName);
-    //    Rfc2898DeriveBytes PBKDF2 = new Rfc2898DeriveBytes(userPassword, userSalt, numberOfItterations);    //Hash the password with the users salt
-    //    byte[] hashedPassword = PBKDF2.GetBytes(20);    //Returns a 20 byte hash            
-    //    bool passwordsMach = comparePasswords(usersHash, hashedPassword);    //Compares byte arrays
-    //    return passwordsMach;
-    //}
-
-    //private bool comparePasswords(byte[] usersHash, byte[] hashedPassword)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-
 
     /// <summary>
     /// 
@@ -380,7 +362,6 @@ namespace TodoList_App
             //otherInsert = null;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -390,12 +371,12 @@ namespace TodoList_App
             _model.EraseTask(name);
         }
 
-
         public void DisplayContextMenuStrip(PictureBox closeBtn)
         {
-            this.closeBtn = closeBtn;
             if (!firstClick)
             {
+                this.closeBtn = closeBtn;
+
                 // Create a new ContextMenuStrip control.
                 contextMenuStrip = new ContextMenuStrip();
 
@@ -443,18 +424,15 @@ namespace TodoList_App
                     // Add the MenuStrip control last. This is important for correct placement in the z-order.
                     TasksDonePage.Controls.Add(options);
                 }
+                open = true;
                 firstClick = true;
             }
         }
 
-        public void MarkTaskAsDone(Label taskLbl)
+        public void MarkTaskAsDone()
         {
-            Label lbl = new Label();
-            lbl.Text = taskLbl.Text;
-            lbl.Visible = true;
             DeplaceTask(true);
-            EmptyUserInsert(insert: lbl);
-            RemoveTask(); //
+            EraseTask(taskLbl.Text);
         }
 
         public void EditTask()
@@ -467,7 +445,7 @@ namespace TodoList_App
             taskLbl.Visible = false;
             taskTodoTxt.KeyDown += taskTodoTxt_KeyDown;
 
-            TasksTodoPage.Controls.Add(taskTodoTxt);
+            tasksList.Controls.Add(taskTodoTxt);
         }
 
         public void EditTask(string newName, string previousName)
@@ -476,9 +454,9 @@ namespace TodoList_App
                 _model.EditTask(newName, previousName);
         }
 
-        public void ControlUserInput(KeyEventArgs e)
+        public void ControlUserInput(KeyEventArgs e = null, bool closeProcess = false)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter || closeProcess)
             {
                 taskLbl.Text = taskTodoTxt.Text;
                 newName = taskLbl.Text;
@@ -494,7 +472,8 @@ namespace TodoList_App
             switch (confirmSuppression)
             {
                 case DialogResult.Yes:
-                    RemoveTask();
+                    EraseTask(taskLbl.Text);
+                    DisplayTasks();
                     break;
                 case DialogResult.No:
 
@@ -504,30 +483,40 @@ namespace TodoList_App
 
         public void CloseContextMenuStrip()
         {
-            closeBtn.Visible = false;
-            options.Hide();
-        }
-
-        public void RemoveTask()
-        {
-            string[] index = Regex.Split(taskLbl.Name, @"\D+");
-            foreach (string currentIndex in index)
+            if (open == true)
             {
-                int i;
-                if (int.TryParse(currentIndex, out i))
-                {
-                    tasksTodo.RemoveAt(i); //
-                }
+                closeBtn.Visible = false;
+                options.Hide();
+                ControlUserInput(closeProcess: true);
+                firstClick = false;
             }
         }
 
         public void DeplaceTask(bool done)
         {
+            Label lbl = new Label();
+            lbl.Text = taskLbl.Text;
+            lbl.Visible = true;
+
             if (done)
-                _model.DeplaceTask(taskLbl.Text, done);
+                _model.DeplaceTask(lbl.Text, done);
             else
-                _model.DeplaceTask(taskLbl.Text, done);
+                _model.DeplaceTask(lbl.Text, done);
         }
+
+
+        //public void RemoveTask()
+        //{
+        //    //string[] index = Regex.Split(taskLbl.Name, @"\D+");
+        //    //foreach (string currentIndex in index)
+        //    //{
+        //    //    int i;
+        //    //    if (int.TryParse(currentIndex, out i))
+        //    //    {
+        //    //        tasks.RemoveAt(i);
+        //    //    }
+        //    //}
+        //}
 
     }
 }

@@ -122,7 +122,7 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                salt = dataReader.GetString(0);
+                salt = dataReader.GetString(0); //
             }
 
             dataReader.Close();
