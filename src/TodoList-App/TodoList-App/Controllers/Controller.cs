@@ -32,13 +32,15 @@ namespace TodoList_App
         private const int x = 1;
         private int y = 1;
 
-
-        private List<string> tasksTodo;
         private Label taskLbl;
         private TextBox taskTodoTxt;
         private Panel tasksList;
         private string previousName;
         private string newName;
+
+        private Label currentTask;
+        private int currentIndex;
+
 
         private bool firstClick = false;
         private bool open = false;
@@ -60,6 +62,7 @@ namespace TodoList_App
         private EventHandler deleteTask_Click { get; set; }
         private KeyEventHandler taskTodoTxt_KeyDown { get; set; }
         private EventHandler closeBtn_Click { get; set; }
+        private EventHandler unmarkTaskAsDone_Click { get; set; }
 
         /// <summary>
         /// Constructor
@@ -75,14 +78,24 @@ namespace TodoList_App
             _home.Controller = this;
         }
 
-        public void AssignEvent()
+        public void AssignEvents()
         {
-            taskLbl_Click = TasksTodoPage.taskTodoLbl_Click;
-            markTaskAsDone_Click = TasksTodoPage.markTaskAsDone_Click;
-            editTask_Click = TasksTodoPage.editTask_Click;
-            taskTodoTxt_KeyDown = TasksTodoPage.taskTodoTxt_KeyDown;
-            deleteTask_Click = TasksTodoPage.deleteTask_Click;
-            closeBtn_Click = TasksTodoPage.closeBtn_Click;
+            if (! done)
+            {
+                taskLbl_Click = TasksTodoPage.taskTodoLbl_Click;
+                markTaskAsDone_Click = TasksTodoPage.markTaskAsDone_Click;
+                editTask_Click = TasksTodoPage.editTask_Click;
+                taskTodoTxt_KeyDown = TasksTodoPage.taskTodoTxt_KeyDown;
+                deleteTask_Click = TasksTodoPage.deleteTask_Click;
+                closeBtn_Click = TasksTodoPage.closeBtn_Click;
+            }
+            else
+            {
+                taskLbl_Click = TasksDonePage.taskDoneLbl_Click;
+                deleteTask_Click = TasksDonePage.deleteTask_Click;
+                unmarkTaskAsDone_Click = TasksDonePage.unmarkTaskAsDone_Click;
+                closeBtn_Click = TasksDonePage.closeBtn_Click;
+            }
         }
 
         /// <summary>
@@ -114,6 +127,7 @@ namespace TodoList_App
                     break;
                 case "TasksTodoPage":
                     TasksTodoPage.Show();
+                    AssignEvents();
                     DisplayTasks();
                     break;
                 case "AddTaskPage":
@@ -121,6 +135,7 @@ namespace TodoList_App
                     break;
                 case "TasksDonePage":
                     TasksDonePage.Show();
+                    AssignEvents();
                     DisplayTasks();
                     break;
             }
@@ -295,41 +310,42 @@ namespace TodoList_App
             }
         }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="username"></param>
-    /// <param name="password"></param>
-    /// <param name="create"></param>
-    /// <returns></returns>
-    public string HashPassword(string username, string password, bool create)
-    {
-            salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
-            using (var sha256 = new SHA256Managed())
-            {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="create"></param>
+        /// <returns></returns>
+        /// <returns></returns>
+        public string HashPassword(string username, string password, bool create)
+        {
+                salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
+                using (var sha256 = new SHA256Managed())
+                {
+                    byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                    byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
-                // Concatenate password and salt
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+                    // Concatenate password and salt
+                    Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                    Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
 
-                // Hash the concatenated password and salt
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+                    // Hash the concatenated password and salt
+                    byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 
-                // Concatenate the salt and hashed password for storage
-                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
-                Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
-                Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
+                    // Concatenate the salt and hashed password for storage
+                    byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
+                    Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
+                    Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
 
-                return Convert.ToBase64String(hashedPasswordWithSalt);
-            }
-    }
+                    return Convert.ToBase64String(hashedPasswordWithSalt);
+                }
+        }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="data"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void CheckTaskData (string data)
         {
             if (!string.IsNullOrEmpty(data))
@@ -371,8 +387,23 @@ namespace TodoList_App
             _model.EraseTask(name);
         }
 
-        public void DisplayContextMenuStrip(PictureBox closeBtn)
+        public void DisplayContextMenuStrip(PictureBox closeBtn, string currentTask)
         {
+            tasksList.Controls.Contains(); // Vérification si label ayant le nom ce currentTask
+            taskLbl
+            this.currentTask.Name = currentTask;
+            string[] index = Regex.Split(currentTask, @"\D+");
+            foreach (string currentIndex in index)
+                if (open == true)
+                {
+                    int i;
+                    if (int.TryParse(currentIndex, out i))
+                    {
+                        this.currentIndex = i;
+                        
+                    }
+                }
+
             if (!firstClick)
             {
                 this.closeBtn = closeBtn;
@@ -382,8 +413,16 @@ namespace TodoList_App
 
                 // Attach an event handler for the ContextMenuStrip control's Opening event.
                 ToolStrip ctrl = new ToolStrip();
-                string[] taskOptions = new string[] { "1.Marquer la tâche comme complète",
-                "2.Modifier la tâche", "3.Supprimer la tâche"};
+                string[] taskOptions;
+
+                if (! done)
+                {
+                    taskOptions = new string[] { "1.Marquer la tâche comme complète", "2.Modifier la tâche", "3.Supprimer la tâche"};
+                }
+                else
+                {
+                    taskOptions = new string[] { "1.Supprimer définitivement la tâche", "2.Marquer la tâche comme non terminée" };
+                }
 
                 // Create a new MenuStrip control and add a ToolStripMenuItem.
                 options = new MenuStrip();
@@ -394,8 +433,10 @@ namespace TodoList_App
                         crud.Click += new EventHandler(markTaskAsDone_Click); //Add of an event to handle further operations
                     if (option == "2.Modifier la tâche")
                         crud.Click += new EventHandler(editTask_Click); //Add of an event to handle further operations
-                    if (option == "3.Supprimer la tâche")
+                    if (option == "3.Supprimer la tâche" || option == "1.Supprimer définitivement la tâche")
                         crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handle further operations
+                    if (option == "2.Marquer la tâche comme non terminée")
+                        crud.Click += new EventHandler(unmarkTaskAsDone_Click);
                     options.Items.Add(crud);
                     options.Dock = DockStyle.Right;
                     crud.DropDown = contextMenuStrip;
@@ -435,6 +476,12 @@ namespace TodoList_App
             EraseTask(taskLbl.Text);
         }
 
+        public void UnmarkTaskAsDone()
+        {
+            DeplaceTask(false);
+            EraseTask(taskLbl.Text);
+        }
+
         public void EditTask()
         {
             previousName = taskLbl.Text;
@@ -454,15 +501,19 @@ namespace TodoList_App
                 _model.EditTask(newName, previousName);
         }
 
-        public void ControlUserInput(KeyEventArgs e = null, bool closeProcess = false)
+        public void ControlUserInput(KeyEventArgs e = null) //bool closeProcess = false
         {
-            if (e.KeyCode == Keys.Enter || closeProcess)
+            if (e.KeyCode == Keys.Enter) //|| closeProcess
             {
-                taskLbl.Text = taskTodoTxt.Text;
+                taskLbl.Text = taskTodoTxt.Text; //
                 newName = taskLbl.Text;
                 taskLbl.Visible = true;
                 taskTodoTxt.Visible = false;
                 EditTask(newName, previousName);
+            }
+            else
+            {
+                MessageBox.Show("à revoir !");
             }
         }
 
@@ -487,36 +538,18 @@ namespace TodoList_App
             {
                 closeBtn.Visible = false;
                 options.Hide();
-                ControlUserInput(closeProcess: true);
+                //ControlUserInput(closeProcess: true);
                 firstClick = false;
+                open = false;
             }
         }
 
         public void DeplaceTask(bool done)
         {
             Label lbl = new Label();
-            lbl.Text = taskLbl.Text;
+            lbl.Text = taskLbl.Text; //
             lbl.Visible = true;
-
-            if (done)
-                _model.DeplaceTask(lbl.Text, done);
-            else
-                _model.DeplaceTask(lbl.Text, done);
+            _model.DeplaceTask(lbl.Text, done);
         }
-
-
-        //public void RemoveTask()
-        //{
-        //    //string[] index = Regex.Split(taskLbl.Name, @"\D+");
-        //    //foreach (string currentIndex in index)
-        //    //{
-        //    //    int i;
-        //    //    if (int.TryParse(currentIndex, out i))
-        //    //    {
-        //    //        tasks.RemoveAt(i);
-        //    //    }
-        //    //}
-        //}
-
     }
 }

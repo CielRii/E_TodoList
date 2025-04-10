@@ -85,6 +85,7 @@
             this.Controls.Add(this.tasksTodoBtn);
             this.Name = "TasksDonePage";
             this.Text = "TasksDonePage";
+            this.Activated += new System.EventHandler(this.TasksDonePage_Activated);
             this.Load += new System.EventHandler(this.TasksDonePage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.ResumeLayout(false);

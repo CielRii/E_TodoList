@@ -5,9 +5,6 @@
 ///Description : this page displays all the tasks an user has to do.
 
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TodoList_App
@@ -17,22 +14,8 @@ namespace TodoList_App
         // Reference to the controller
         public Controller Controller { get; set; }
 
-        private Label taskTodoLbl;
-        private TextBox taskTodoTxt;
-
-        private List<string> tasksTodo;
-        private bool firstClick = false;
-        private string previousName;
-        private string newName;
-
-        private int indexTask = 0;
-        private const int x = 1;
-        private int y = 1;
         private const bool done = false;
-        private bool firstLoad = false;
 
-        // Declare the ContextMenuStrip control.
-        private ContextMenuStrip contextMenuStrip;
 
         /// <summary>
         /// 
@@ -44,8 +27,13 @@ namespace TodoList_App
 
         private void TasksTodoPage_Load(object sender, EventArgs e)
         {
+           
+        }
+
+        private void TasksTodoPage_Activated(object sender, EventArgs e)
+        {
             Controller.CurrentPageRecap(tasksTodoList, done);
-            Controller.AssignEvents();
+            //Controller.AssignEvents();
         }
 
         /// <summary>
@@ -55,7 +43,13 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void taskTodoLbl_Click(object sender, EventArgs e)
         {
-            Controller.DisplayContextMenuStrip(closeBtn);
+            Controller.AssignEvents();
+            Controller.CloseContextMenuStrip();
+            if (sender is Label lbl)
+            {
+                string currentTask = lbl.Name;
+                Controller.DisplayContextMenuStrip(closeBtn, currentTask);
+            }
         }
 
         /// <summary>
@@ -109,13 +103,7 @@ namespace TodoList_App
         public void closeBtn_Click(object sender, EventArgs e)
         {
             Controller.CloseContextMenuStrip();
-            Controller.AssignEvents();
-            //Controller.taskLbl_Click = taskTodoLbl_Click;
-            //Controller.markTaskAsDone_Click = markTaskAsDone_Click;
-            //Controller.editTask_Click = editTask_Click;
-            //Controller.taskTodoTxt_KeyDown = taskTodoTxt_KeyDown;
-            //Controller.deleteTask_Click = deleteTask_Click;
-            //Controller.closeBtn_Click = closeBtn_Click;
+            //Controller.AssignEvents();
         }
 
 
@@ -138,7 +126,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void tasksDoneBtn_Click(object sender, EventArgs e)
         {
-            Controller.CloseContextMenuStrip();
+            Controller.CloseContextMenuStrip(); //
             Controller.Redirection("TasksDonePage");
             Hide();
         }

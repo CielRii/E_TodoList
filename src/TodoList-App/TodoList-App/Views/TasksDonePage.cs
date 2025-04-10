@@ -47,96 +47,26 @@ namespace TodoList_App
         /// <param name="e"></param>
         private void TasksDonePage_Load(object sender, EventArgs e)
         {
-            tasksDoneList.Controls.Clear();
-            y = 1;
-            //tasksDone = Controller.DisplayTasks();
-
-            if (tasksDone.Count > 0)
-            {
-                for (int j = 0; j < tasksDone.Count; j++)
-                {
-                    taskDoneLbl = new Label();
-                    taskDoneLbl.Click += new EventHandler(taskDoneLbl_Click); //Add of an event to handle further operations
-                    taskDoneLbl.Height = LABEL_HEIGHT;
-                    taskDoneLbl.Width = LABEL_WIDTH;
-                    taskDoneLbl.Location = new Point(x, y);
-                    taskDoneLbl.Name = "taskDoneLbl" + indexTask;
-                    taskDoneLbl.Text = tasksDone[j];
-                    y += LABEL_HEIGHT + 10;
-                    tasksDoneList.Controls.Add(taskDoneLbl);
-                    indexTask++;
-                }
-            }
+           
         }
 
-
-        public void DisplayTasks()
+        private void TasksDonePage_Activated(object sender, EventArgs e)
         {
-            tasksDoneList.Controls.Clear();
-            y = 1;
-           // tasksDone = Controller.DisplayTasks();
-
-            if (tasksDone.Count > 0)
-            {
-                for (int j = 0; j < tasksDone.Count; j++)
-                {
-                    taskDoneLbl = new Label();
-                    taskDoneLbl.Click += new EventHandler(taskDoneLbl_Click); //Add of an event to handle further operations
-                    taskDoneLbl.Height = LABEL_HEIGHT;
-                    taskDoneLbl.Width = LABEL_WIDTH;
-                    taskDoneLbl.Location = new Point(x, y);
-                    taskDoneLbl.Name = "taskDoneLbl" + indexTask;
-                    taskDoneLbl.Text = tasksDone[j];
-                    y += LABEL_HEIGHT + 10;
-                    tasksDoneList.Controls.Add(taskDoneLbl);
-                    indexTask++;
-                }
-            }
+            Controller.CurrentPageRecap(tasksDoneList, done);
+            Controller.AssignEvents();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void taskDoneLbl_Click(object sender, EventArgs e)
+        public void taskDoneLbl_Click(object sender, EventArgs e)
         {
-            if (!firstClick)
+            if (sender is Label lbl)
             {
-                // Create a new ContextMenuStrip control.
-                contextMenuStrip = new ContextMenuStrip();
-
-                // Attach an event handler for the ContextMenuStrip control's Opening event.
-                ToolStrip ctrl = new ToolStrip();
-                
-                string[] taskOptions = new string[] { "1.Supprimer définitivement la tâche", "2.Marquer la tâche comme non terminée" };
-
-
-                // Create a new MenuStrip control and add a ToolStripMenuItem.
-                MenuStrip options = new MenuStrip();
-                foreach (var option in taskOptions)
-                {
-                    ToolStripMenuItem crud = new ToolStripMenuItem(option);
-                    if (option == "1.Supprimer définitivement la tâche")
-                        crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handle further operations
-                    if (option == "2.Marquer la tâche comme non terminée")
-                        crud.Click += new EventHandler(unmarkTaskAsDone_Click); //Add of an event to handle further operations
-                    options.Items.Add(crud);
-                    options.Dock = DockStyle.Right;
-                    crud.DropDown = contextMenuStrip;
-                }
-                //Link the close button to the menu
-                closeBtn.ContextMenuStrip = contextMenuStrip;
-                closeBtn.Visible = true;
-                closeBtn.Click += new EventHandler(closeBtn_Click);
-
-                // Assign the ContextMenuStrip to the form's ContextMenuStrip property.
-                ContextMenuStrip = contextMenuStrip;
-
-                // Add the ToolStrip control to the Controls collection.
-                Controls.Add(ctrl);
-                // Add the MenuStrip control last. This is important for correct placement in the z-order.
-                Controls.Add(options);
-                firstClick = true;
+                string currentTask = lbl.Name;
+                Controller.DisplayContextMenuStrip(closeBtn, currentTask);
             }
         }
 
@@ -145,22 +75,9 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteTask_Click(object sender, EventArgs e)
+        public void deleteTask_Click(object sender, EventArgs e)
         {
-            DialogResult confirmSuppression = MessageBox.Show("Êtes-vous de vouloir supprimer cette tâche ?", "Confirmation avant suppression", MessageBoxButtons.YesNo);
-            switch (confirmSuppression)
-            {
-                case DialogResult.Yes:
-                    deleteStatus = true;
-                    Controller.EraseTask(taskDoneLbl.Text);
-                    break;
-                case DialogResult.No:
-                    deleteStatus = false;
-                    break;
-            }
-
-            if (deleteStatus)
-                taskDoneLbl.Visible = false;
+            Controller.DeleteTask();
         }
 
         /// <summary>
@@ -168,29 +85,10 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void unmarkTaskAsDone_Click(object sender, EventArgs e)
+        public void unmarkTaskAsDone_Click(object sender, EventArgs e)
         {
-            Label lbl = new Label();
-            lbl.Text = taskDoneLbl.Text;
-            lbl.Visible = true;
-            Controller.DeplaceTask(false);
-            removeTask();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void removeTask()
-        {
-            string[] index = Regex.Split(taskDoneLbl.Name, @"\D+");
-            foreach (string currentIndex in index)
-            {
-                int i;
-                if (int.TryParse(currentIndex, out i))
-                {
-                    tasksDone.RemoveAt(i);
-                }
-            }
+            Controller.UnmarkTaskAsDone();
+            Controller.DisplayTasks();
         }
 
         /// <summary>
@@ -198,10 +96,10 @@ namespace TodoList_App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void closeBtn_Click(object sender, EventArgs e)
+        public void closeBtn_Click(object sender, EventArgs e)
         {
-            ContextMenuStrip.Visible = false;
-            closeBtn.Visible = false;
+            Controller.CloseContextMenuStrip();
+            Controller.AssignEvents();
         }
 
         /// <summary>
