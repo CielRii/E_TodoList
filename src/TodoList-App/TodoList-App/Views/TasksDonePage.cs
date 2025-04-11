@@ -52,8 +52,8 @@ namespace TodoList_App
 
         private void TasksDonePage_Activated(object sender, EventArgs e)
         {
-            Controller.CurrentPageRecap(tasksDoneList, done);
-            Controller.AssignEvents();
+            Controller.CurrentPageRecap(tasksDonePnl, done);
+            //Controller.AssignEvents();
         }
 
         /// <summary>
@@ -63,6 +63,8 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void taskDoneLbl_Click(object sender, EventArgs e)
         {
+            //Controller.AssignEvents();
+            Controller.CloseContextMenuStrip();
             if (sender is Label lbl)
             {
                 string currentTask = lbl.Name;

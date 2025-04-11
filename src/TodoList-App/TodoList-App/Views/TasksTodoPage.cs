@@ -32,7 +32,7 @@ namespace TodoList_App
 
         private void TasksTodoPage_Activated(object sender, EventArgs e)
         {
-            Controller.CurrentPageRecap(tasksTodoList, done);
+            Controller.CurrentPageRecap(tasksTodoPnl, done);
             //Controller.AssignEvents();
         }
 
@@ -43,7 +43,7 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void taskTodoLbl_Click(object sender, EventArgs e)
         {
-            Controller.AssignEvents();
+            //Controller.AssignEvents();
             Controller.CloseContextMenuStrip();
             if (sender is Label lbl)
             {

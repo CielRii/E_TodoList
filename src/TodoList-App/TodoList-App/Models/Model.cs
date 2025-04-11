@@ -8,6 +8,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace TodoList_App
 {
@@ -259,19 +260,53 @@ namespace TodoList_App
             return true;
         }
 
-        public bool DeplaceTask(string name, bool done)
+        public void DeplaceTask(string name, bool done)
         {
-            if (!IsConnect()) return false;
+            //if (!IsConnect()) return false;
+            //MessageBox.Show("Base connectée : " + Connection.Database);
 
-            string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
-                "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
-            cmd = new MySqlCommand(query, Connection);
-            cmd.Parameters.AddWithValue("@name", name);
-            cmd.Parameters.AddWithValue("@userID", 1);
-            cmd.Parameters.AddWithValue("@done", done);
-            cmd.Prepare();
-            cmd.ExecuteNonQuery();
-            return true;
+            int i;
+            if (done)
+                i = 1;
+            else
+                i = 0;
+            //string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
+            //    "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
+            //cmd = new MySqlCommand(query, Connection);
+            //cmd.Parameters.AddWithValue("@name", name);
+            //cmd.Parameters.AddWithValue("@userID", 1);
+            //cmd.Parameters.AddWithValue("@done", i);
+            //cmd.Prepare();
+            //cmd.ExecuteNonQuery();
+
+            //return true;
+
+            try
+            {
+                string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
+                    "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
+
+                cmd = new MySqlCommand(query, Connection);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@userID", 1);
+                cmd.Parameters.AddWithValue("@done", i );
+                cmd.Prepare();
+
+                int affectedRows = cmd.ExecuteNonQuery();
+
+                if (affectedRows == 0)
+                {
+                    MessageBox.Show("Aucune ligne insérée dans la base.");
+                    //return false;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur SQL : " + ex.Message);
+                //return false;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace TodoList_App
@@ -24,17 +25,18 @@ namespace TodoList_App
         private string username;
         private const int numberOfItterations = 20000;
         private List<string> tasks;
+        private List<Label> tasksList;
         private bool done;
         private byte[] salt;
 
         const int LABEL_WIDTH = 200, LABEL_HEIGHT = 25; //Label height and width
-        private int indexTask = 0;
+        private int indexTask;
         private const int x = 1;
         private int y = 1;
 
         private Label taskLbl;
         private TextBox taskTodoTxt;
-        private Panel tasksList;
+        private Panel tasksPnl;
         private string previousName;
         private string newName;
 
@@ -42,6 +44,7 @@ namespace TodoList_App
         private int currentIndex;
 
 
+        private bool closeProcess = false;
         private bool firstClick = false;
         private bool open = false;
 
@@ -144,11 +147,11 @@ namespace TodoList_App
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tasksList"></param>
+        /// <param name="tasksPnl"></param>
         /// <param name="done"></param>
-        public void CurrentPageRecap(Panel tasksList, bool done)
+        public void CurrentPageRecap(Panel tasksPnl, bool done)
         {
-            this.tasksList = tasksList;
+            this.tasksPnl = tasksPnl;
             this.done = done;
         }
 
@@ -157,9 +160,11 @@ namespace TodoList_App
         /// </summary>
         public void DisplayTasks()
         {
-            tasksList.Controls.Clear();
+            tasksPnl.Controls.Clear();
             y = 1;
+            indexTask = 0;
             tasks = SpecificTasksToDisplay();
+            tasksList = new List<Label>();
 
             if (tasks.Count > 0)
             {
@@ -170,10 +175,11 @@ namespace TodoList_App
                     taskLbl.Height = LABEL_HEIGHT;
                     taskLbl.Width = LABEL_WIDTH;
                     taskLbl.Location = new Point(x, y);
-                    taskLbl.Name = "taskTodoLbl" + indexTask;
+                    taskLbl.Name = "taskLbl" + indexTask;
                     taskLbl.Text = tasks[j];
                     y += LABEL_HEIGHT + 10;
-                    tasksList.Controls.Add(taskLbl);
+                    tasksList.Add(taskLbl); //
+                    tasksPnl.Controls.Add(taskLbl);
                     indexTask++;
                 }
             }
@@ -385,24 +391,38 @@ namespace TodoList_App
         public void EraseTask(string name)
         {
             _model.EraseTask(name);
+            CloseContextMenuStrip();
         }
 
         public void DisplayContextMenuStrip(PictureBox closeBtn, string currentTask)
         {
-            tasksList.Controls.Contains(); // Vérification si label ayant le nom ce currentTask
-            taskLbl
-            this.currentTask.Name = currentTask;
+            //tasksPnl.Controls.Contains(); // Vérification si label ayant le nom ce currentTask
+            //this.currentTask.Name = currentTask;
+            //foreach (Label elements in tasksList)
+            //{
+            //    if (elements.Name == currentTask)
+            //    {
+
+            //    }
+
+            //}
+
+
             string[] index = Regex.Split(currentTask, @"\D+");
             foreach (string currentIndex in index)
-                if (open == true)
+            {
+                int i;
+                if (int.TryParse(currentIndex, out i))
                 {
-                    int i;
-                    if (int.TryParse(currentIndex, out i))
-                    {
-                        this.currentIndex = i;
-                        
-                    }
+                    taskLbl = tasksList[i]; //
                 }
+            }
+            //if (open == true)
+            //{
+
+            //}
+
+
 
             if (!firstClick)
             {
@@ -473,12 +493,14 @@ namespace TodoList_App
         public void MarkTaskAsDone()
         {
             DeplaceTask(true);
+            //MessageBox.Show("done");
             EraseTask(taskLbl.Text);
         }
 
         public void UnmarkTaskAsDone()
         {
             DeplaceTask(false);
+            MessageBox.Show("done");
             EraseTask(taskLbl.Text);
         }
 
@@ -492,7 +514,7 @@ namespace TodoList_App
             taskLbl.Visible = false;
             taskTodoTxt.KeyDown += taskTodoTxt_KeyDown;
 
-            tasksList.Controls.Add(taskTodoTxt);
+            tasksPnl.Controls.Add(taskTodoTxt);
         }
 
         public void EditTask(string newName, string previousName)
@@ -501,9 +523,17 @@ namespace TodoList_App
                 _model.EditTask(newName, previousName);
         }
 
-        public void ControlUserInput(KeyEventArgs e = null) //bool closeProcess = false
+        public void ControlUserInput(KeyEventArgs e = null)
         {
-            if (e.KeyCode == Keys.Enter) //|| closeProcess
+            if (e.KeyCode == Keys.Enter)
+            {
+                ControlUserInput();
+            }
+        }
+
+        public void ControlUserInput()
+        {
+            if (taskTodoTxt != null)
             {
                 taskLbl.Text = taskTodoTxt.Text; //
                 newName = taskLbl.Text;
@@ -511,15 +541,11 @@ namespace TodoList_App
                 taskTodoTxt.Visible = false;
                 EditTask(newName, previousName);
             }
-            else
-            {
-                MessageBox.Show("à revoir !");
-            }
         }
 
         public void DeleteTask()
         {
-            DialogResult confirmSuppression = MessageBox.Show("Êtes-vous de vouloir supprimer cette tâche ?", "Confirmation avant suppression", MessageBoxButtons.YesNo);
+            DialogResult confirmSuppression = MessageBox.Show("Êtes-vous sûr de vouloir supprimer cette tâche ?", "Confirmation avant suppression", MessageBoxButtons.YesNo);
             switch (confirmSuppression)
             {
                 case DialogResult.Yes:
@@ -538,7 +564,9 @@ namespace TodoList_App
             {
                 closeBtn.Visible = false;
                 options.Hide();
-                //ControlUserInput(closeProcess: true);
+                closeProcess = true;
+                ControlUserInput();
+                closeProcess = false;
                 firstClick = false;
                 open = false;
             }
@@ -546,10 +574,23 @@ namespace TodoList_App
 
         public void DeplaceTask(bool done)
         {
-            Label lbl = new Label();
-            lbl.Text = taskLbl.Text; //
-            lbl.Visible = true;
-            _model.DeplaceTask(lbl.Text, done);
+            //Label lbl = new Label();
+            //lbl.Text = taskLbl.Text; //
+            //lbl.Visible = true;
+
+            while (string.IsNullOrEmpty(taskLbl.Text))
+            {
+                Thread.Sleep(10); // Petite pause pour ne pas surcharger le CPU
+                
+            }
+            Application.DoEvents();
+
+            _model.DeplaceTask(taskLbl.Text, done);
+            //{
+            //    MessageBox.Show("working");
+            //}
+            //else { MessageBox.Show("Problem"); }
+
         }
     }
 }

@@ -32,7 +32,7 @@
             this.tasksDoneBtn = new System.Windows.Forms.Button();
             this.tasksTodoTitle = new System.Windows.Forms.Label();
             this.addTaskBtn = new System.Windows.Forms.Button();
-            this.tasksTodoList = new System.Windows.Forms.Panel();
+            this.tasksTodoPnl = new System.Windows.Forms.Panel();
             this.closeBtn = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.SuspendLayout();
@@ -67,12 +67,12 @@
             this.addTaskBtn.UseVisualStyleBackColor = true;
             this.addTaskBtn.Click += new System.EventHandler(this.addTaskBtn_Click);
             // 
-            // tasksTodoList
+            // tasksTodoPnl
             // 
-            this.tasksTodoList.Location = new System.Drawing.Point(234, 119);
-            this.tasksTodoList.Name = "tasksTodoList";
-            this.tasksTodoList.Size = new System.Drawing.Size(343, 214);
-            this.tasksTodoList.TabIndex = 3;
+            this.tasksTodoPnl.Location = new System.Drawing.Point(234, 119);
+            this.tasksTodoPnl.Name = "tasksTodoPnl";
+            this.tasksTodoPnl.Size = new System.Drawing.Size(343, 214);
+            this.tasksTodoPnl.TabIndex = 3;
             // 
             // closeBtn
             // 
@@ -91,7 +91,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.closeBtn);
-            this.Controls.Add(this.tasksTodoList);
+            this.Controls.Add(this.tasksTodoPnl);
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.tasksTodoTitle);
             this.Controls.Add(this.tasksDoneBtn);
@@ -111,6 +111,6 @@
         private System.Windows.Forms.Label tasksTodoTitle;
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.PictureBox closeBtn;
-        public System.Windows.Forms.Panel tasksTodoList;
+        public System.Windows.Forms.Panel tasksTodoPnl;
     }
 }

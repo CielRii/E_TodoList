@@ -32,7 +32,7 @@
             this.tasksTodoBtn = new System.Windows.Forms.Button();
             this.tasksDoneTitle = new System.Windows.Forms.Label();
             this.closeBtn = new System.Windows.Forms.PictureBox();
-            this.tasksDoneList = new System.Windows.Forms.Panel();
+            this.tasksDonePnl = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,19 +67,19 @@
             this.closeBtn.TabStop = false;
             this.closeBtn.Visible = false;
             // 
-            // tasksDoneList
+            // tasksDonePnl
             // 
-            this.tasksDoneList.Location = new System.Drawing.Point(270, 116);
-            this.tasksDoneList.Name = "tasksDoneList";
-            this.tasksDoneList.Size = new System.Drawing.Size(266, 211);
-            this.tasksDoneList.TabIndex = 6;
+            this.tasksDonePnl.Location = new System.Drawing.Point(270, 116);
+            this.tasksDonePnl.Name = "tasksDonePnl";
+            this.tasksDonePnl.Size = new System.Drawing.Size(266, 211);
+            this.tasksDonePnl.TabIndex = 6;
             // 
             // TasksDonePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tasksDoneList);
+            this.Controls.Add(this.tasksDonePnl);
             this.Controls.Add(this.closeBtn);
             this.Controls.Add(this.tasksDoneTitle);
             this.Controls.Add(this.tasksTodoBtn);
@@ -98,6 +98,6 @@
         private System.Windows.Forms.Button tasksTodoBtn;
         private System.Windows.Forms.Label tasksDoneTitle;
         private System.Windows.Forms.PictureBox closeBtn;
-        public System.Windows.Forms.Panel tasksDoneList;
+        public System.Windows.Forms.Panel tasksDonePnl;
     }
 }
