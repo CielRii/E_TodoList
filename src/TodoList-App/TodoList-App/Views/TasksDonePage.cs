@@ -89,7 +89,8 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void unmarkTaskAsDone_Click(object sender, EventArgs e)
         {
-            Controller.UnmarkTaskAsDone();
+            Controller.DeplaceTask(false);
+            Controller.CloseContextMenuStrip();
             Controller.DisplayTasks();
         }
 

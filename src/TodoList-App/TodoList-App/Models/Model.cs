@@ -24,7 +24,7 @@ namespace TodoList_App
         private MySqlCommand cmd;
         private MySqlDataReader dataReader;
         public int userID;
-        public string salt;
+        public byte[] salt;
 
         /// <summary>
         /// 
@@ -78,7 +78,7 @@ namespace TodoList_App
             string query = "SELECT * FROM t_user WHERE `username` = @username;"; //Secure request
             cmd = new MySqlCommand(query, Connection); //Send the request to the database
             cmd.Parameters.AddWithValue("@username", username); //Bind the parameters
-            dataReader = cmd.ExecuteReader();
+            dataReader = cmd.ExecuteReader(); //
             while (dataReader.Read())
             {
                 //Retrieve actual user id
@@ -113,7 +113,7 @@ namespace TodoList_App
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public string GetSalt(string username)
+        public byte[] GetSalt(string username)
         {
             if (!IsConnect()) return null;
 
@@ -123,7 +123,7 @@ namespace TodoList_App
             dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
-                salt = dataReader.GetString(0); //
+                salt = (byte[])dataReader.GetValue(0); //
             }
 
             dataReader.Close();
@@ -263,28 +263,16 @@ namespace TodoList_App
         public void DeplaceTask(string name, bool done)
         {
             //if (!IsConnect()) return false;
-            //MessageBox.Show("Base connectée : " + Connection.Database);
 
             int i;
             if (done)
                 i = 1;
             else
                 i = 0;
-            //string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
-            //    "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
-            //cmd = new MySqlCommand(query, Connection);
-            //cmd.Parameters.AddWithValue("@name", name);
-            //cmd.Parameters.AddWithValue("@userID", 1);
-            //cmd.Parameters.AddWithValue("@done", i);
-            //cmd.Prepare();
-            //cmd.ExecuteNonQuery();
-
-            //return true;
 
             try
             {
-                string query = "INSERT INTO `t_task`(task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4, done)" +
-                    "VALUES (NULL, @name, @userID, @userID, @userID, @userID, @userID, @done);";
+                string query = "UPDATE `t_task` SET done = @done WHERE name = @name AND user_id = @userID;";
 
                 cmd = new MySqlCommand(query, Connection);
                 cmd.Parameters.AddWithValue("@name", name);
@@ -297,15 +285,11 @@ namespace TodoList_App
                 if (affectedRows == 0)
                 {
                     MessageBox.Show("Aucune ligne insérée dans la base.");
-                    //return false;
                 }
-
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur SQL : " + ex.Message);
-                //return false;
             }
         }
     }

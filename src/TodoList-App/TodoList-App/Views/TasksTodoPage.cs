@@ -59,7 +59,8 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void markTaskAsDone_Click(object sender, EventArgs e)
         {
-            Controller.MarkTaskAsDone();
+            Controller.DeplaceTask(true);
+            Controller.CloseContextMenuStrip();
             Controller.DisplayTasks();
         }
 
@@ -72,7 +73,6 @@ namespace TodoList_App
         {
             Controller.EditTask();
         }
-
 
         /// <summary>
         /// 
@@ -91,7 +91,6 @@ namespace TodoList_App
         /// <param name="e"></param>
         public void deleteTask_Click(object sender, EventArgs e)
         {
-            Controller.DeplaceTask(true);
             Controller.DeleteTask();
         }
 

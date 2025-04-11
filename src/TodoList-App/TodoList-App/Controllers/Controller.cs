@@ -40,7 +40,8 @@ namespace TodoList_App
         private string previousName;
         private string newName;
 
-        private Label currentTask;
+        private string currentTask;
+        private string previousTask;
         private int currentIndex;
 
 
@@ -201,9 +202,10 @@ namespace TodoList_App
         /// <param name="password"></param>
         public void CheckLogin (string username, string password)
         {
+            this.username = username;
             if (username != string.Empty && password != string.Empty)
             {
-                if (_model.CheckLogin (username, HashPassword(username, password, false)))
+                if (_model.CheckLogin (username, CheckPassword(password)))
                 {
                     Redirection("TasksTodoPage");
                 }
@@ -217,6 +219,33 @@ namespace TodoList_App
                 MessageBox.Show("Vos identifiants ne sont pas reconnus. Veuillez les re-vérifier ou créer un nouveau compte.");
             }
         }
+
+        public string CheckPassword(string password)
+        {
+            salt = _model.GetSalt(username); //
+            using (var sha256 = new SHA256Managed())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+
+                // Concatenate password and salt
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(saltedPassword, 0, saltedPassword, passwordBytes.Length, salt.Length); //
+
+                // Hash the concatenated password and salt
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                // Concatenate the salt and hashed password for storage
+                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
+                Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
+                Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
+
+                return Convert.ToBase64String(hashedPasswordWithSalt);
+                //Understand the code
+            }
+        }
+
+
 
         /// <summary>
         /// 
@@ -260,6 +289,8 @@ namespace TodoList_App
             }
         }
 
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -267,34 +298,10 @@ namespace TodoList_App
         /// <param name="password"></param>
         /// <param name="create"></param>
         /// <returns></returns>
-        public string HashPasswordMySqlCompatible(string username,string password, bool create)
+        /// <returns></returns>
+        public string HashPassword(string username, string password, bool create)
         {
-            if (!create)
-            { 
-                salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); 
-            }    
-            else
-            { 
-                Random rnd = new Random();
-                int length = rnd.Next(12, 20);
-                int rndValue;
-                string rndSalt = "";
-                char letter;
-                for (int i = 0; i < length; i++)
-                {
-                    // Generating a random number
-                    rndValue = rnd.Next(0, 26);
-
-                    // Generating random character by converting 
-                    // the random number into character
-                    letter = Convert.ToChar(rndValue + 65);
-
-                    // Appending the letter to string
-                    rndSalt = rndSalt + letter;
-                }
-                salt = Encoding.UTF8.GetBytes(rndSalt); 
-            }
-
+            salt = _model.GetSalt(username); //
             using (var sha256 = new SHA256Managed())
             {
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
@@ -314,38 +321,6 @@ namespace TodoList_App
 
                 return Convert.ToBase64String(hashedPasswordWithSalt);
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="create"></param>
-        /// <returns></returns>
-        /// <returns></returns>
-        public string HashPassword(string username, string password, bool create)
-        {
-                salt = Encoding.UTF8.GetBytes(_model.GetSalt(username)); //
-                using (var sha256 = new SHA256Managed())
-                {
-                    byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-                    byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                    // Concatenate password and salt
-                    Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                    Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                    // Hash the concatenated password and salt
-                    byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                    // Concatenate the salt and hashed password for storage
-                    byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
-                    Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
-                    Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
-
-                    return Convert.ToBase64String(hashedPasswordWithSalt);
-                }
         }
 
         /// <summary>
@@ -396,33 +371,16 @@ namespace TodoList_App
 
         public void DisplayContextMenuStrip(PictureBox closeBtn, string currentTask)
         {
-            //tasksPnl.Controls.Contains(); // Vérification si label ayant le nom ce currentTask
-            //this.currentTask.Name = currentTask;
-            //foreach (Label elements in tasksList)
-            //{
-            //    if (elements.Name == currentTask)
-            //    {
-
-            //    }
-
-            //}
-
-
+            this.currentTask = currentTask; 
             string[] index = Regex.Split(currentTask, @"\D+");
             foreach (string currentIndex in index)
             {
                 int i;
                 if (int.TryParse(currentIndex, out i))
                 {
-                    taskLbl = tasksList[i]; //
+                    taskLbl = tasksList[i]; 
                 }
             }
-            //if (open == true)
-            //{
-
-            //}
-
-
 
             if (!firstClick)
             {
@@ -437,11 +395,11 @@ namespace TodoList_App
 
                 if (! done)
                 {
-                    taskOptions = new string[] { "1.Marquer la tâche comme complète", "2.Modifier la tâche", "3.Supprimer la tâche"};
+                    taskOptions = new string[] { "1. Marquer la tâche comme complète", "2. Modifier la tâche", "3. Supprimer la tâche"};
                 }
                 else
                 {
-                    taskOptions = new string[] { "1.Supprimer définitivement la tâche", "2.Marquer la tâche comme non terminée" };
+                    taskOptions = new string[] { "1. Supprimer définitivement la tâche", "2. Marquer la tâche comme non terminée" };
                 }
 
                 // Create a new MenuStrip control and add a ToolStripMenuItem.
@@ -449,13 +407,13 @@ namespace TodoList_App
                 foreach (var option in taskOptions)
                 {
                     ToolStripMenuItem crud = new ToolStripMenuItem(option);
-                    if (option == "1.Marquer la tâche comme complète")
+                    if (option == "1. Marquer la tâche comme complète")
                         crud.Click += new EventHandler(markTaskAsDone_Click); //Add of an event to handle further operations
-                    if (option == "2.Modifier la tâche")
+                    if (option == "2. Modifier la tâche")
                         crud.Click += new EventHandler(editTask_Click); //Add of an event to handle further operations
-                    if (option == "3.Supprimer la tâche" || option == "1.Supprimer définitivement la tâche")
+                    if (option == "3. Supprimer la tâche" || option == "1. Supprimer définitivement la tâche")
                         crud.Click += new EventHandler(deleteTask_Click); //Add of an event to handle further operations
-                    if (option == "2.Marquer la tâche comme non terminée")
+                    if (option == "2. Marquer la tâche comme non terminée")
                         crud.Click += new EventHandler(unmarkTaskAsDone_Click);
                     options.Items.Add(crud);
                     options.Dock = DockStyle.Right;
@@ -490,20 +448,6 @@ namespace TodoList_App
             }
         }
 
-        public void MarkTaskAsDone()
-        {
-            DeplaceTask(true);
-            //MessageBox.Show("done");
-            EraseTask(taskLbl.Text);
-        }
-
-        public void UnmarkTaskAsDone()
-        {
-            DeplaceTask(false);
-            MessageBox.Show("done");
-            EraseTask(taskLbl.Text);
-        }
-
         public void EditTask()
         {
             previousName = taskLbl.Text;
@@ -535,7 +479,7 @@ namespace TodoList_App
         {
             if (taskTodoTxt != null)
             {
-                taskLbl.Text = taskTodoTxt.Text; //
+                taskLbl.Text = taskTodoTxt.Text;
                 newName = taskLbl.Text;
                 taskLbl.Visible = true;
                 taskTodoTxt.Visible = false;
@@ -569,28 +513,14 @@ namespace TodoList_App
                 closeProcess = false;
                 firstClick = false;
                 open = false;
+                taskTodoTxt = null;
+                previousTask = taskLbl.Text;
             }
         }
 
         public void DeplaceTask(bool done)
         {
-            //Label lbl = new Label();
-            //lbl.Text = taskLbl.Text; //
-            //lbl.Visible = true;
-
-            while (string.IsNullOrEmpty(taskLbl.Text))
-            {
-                Thread.Sleep(10); // Petite pause pour ne pas surcharger le CPU
-                
-            }
-            Application.DoEvents();
-
             _model.DeplaceTask(taskLbl.Text, done);
-            //{
-            //    MessageBox.Show("working");
-            //}
-            //else { MessageBox.Show("Problem"); }
-
         }
     }
 }
