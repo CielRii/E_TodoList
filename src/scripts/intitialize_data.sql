@@ -7,15 +7,61 @@ INSERT INTO `t_user`(`user_id`, `username`, `password`) VALUES
 (NULL, "IrisV", "Moe293."),
 (NULL, "Gioele", "Corradini982.");
 
-INSERT INTO `t_task` (task_id, name, user_id, user_id_1, user_id_2, user_id_3, user_id_4) VALUES
-(NULL, "Faire mes devoirs", 1, 1, 1, 1, 1),
-(NULL, "PrÈparer le rapport mensuel", 1, 1, 1, 1, 1),
-(NULL, "RÈviser pour l'examen", 2, 2, 2, 2, 2),
-(NULL, "Organiser la rÈunion d'Èquipe", 2, 2, 2, 2, 2),
-(NULL, "Acheter les courses", 3, 3, 3, 3, 3),
-(NULL, "RÈpondre aux emails importants", 3, 3, 3, 3, 3),
-(NULL, "Mettre ‡ jour le site web", 4, 4, 4, 4, 4),
-(NULL, "Planifier les vacances", 4, 4, 4, 4, 4),
-(NULL, "…crire un article de blog", 5, 5, 5, 5, 5),
-(NULL, "Faire une prÈsentation PowerPoint", 5, 5, 5, 5, 5);
+INSERT INTO `t_task` (task_id, name, user_id) VALUES
+(NULL, "Faire mes devoirs", 1),
+(NULL, "Pr√©parer le rapport mensuel", 1),
+(NULL, "R√©viser pour l'examen", 2),
+(NULL, "Organiser la r√©union d'√©quipe", 2),
+(NULL, "Acheter les courses", 3),
+(NULL, "R√©pondre aux emails importants", 3),
+(NULL, "Mettre √† jour le site web", 4),
+(NULL, "Planifier les vacances", 4),
+(NULL, "Ecrire un article de blog", 5),
+(NULL, "Faire une pr√©sentation PowerPoint", 5);
 
+DELIMITER $$
+
+CREATE PROCEDURE UpdatePasswords()
+BEGIN
+  DECLARE done INT DEFAULT FALSE;
+  DECLARE v_user_id INT;
+  DECLARE v_password VARCHAR(255);
+
+  DECLARE cur CURSOR FOR SELECT user_id, password FROM t_user;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+  OPEN cur;
+
+  read_loop: LOOP
+    FETCH cur INTO v_user_id, v_password;
+    IF done THEN
+      LEAVE read_loop;
+    END IF;
+
+    -- G√©n√©rer un salt binaire de 20 octets
+    SET @salt := UNHEX(SHA2(CONCAT(RAND(), NOW()), 256)); -- SHA2 donne 32 octets, on tronque apr√®s
+    SET @salt := LEFT(@salt, 20);
+
+    -- Concat√©ner password et salt comme en C#
+    SET @password_bytes := CONVERT(v_password USING utf8mb4);
+    SET @salted := CONCAT(@password_bytes, @salt);
+
+    -- Hacher le mot de passe sal√©
+    SET @hashed := UNHEX(SHA2(@salted, 256));
+
+    -- Concat√©ner salt + hash
+    SET @final := TO_BASE64(CONCAT(@salt, @hashed));
+
+    -- Mettre √† jour
+    UPDATE t_user
+    SET password = @final, salt = @salt
+    WHERE user_id = v_user_id;
+
+  END LOOP;
+
+  CLOSE cur;
+END$$
+
+DELIMITER ;
+
+CALL UpdatePasswords();

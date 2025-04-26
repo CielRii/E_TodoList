@@ -51,7 +51,6 @@ namespace TodoList_App
         private void connexionBtn_Click(object sender, EventArgs e)
         {
             Controller.CheckLogin(userNameInsert.Text, passwordInsert.Text);
-            //Controller.Redirection("TasksTodoPage");
             Hide();
         }
     }

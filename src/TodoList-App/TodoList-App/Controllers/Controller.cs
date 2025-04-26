@@ -10,7 +10,6 @@ using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace TodoList_App
@@ -205,7 +204,7 @@ namespace TodoList_App
             this.username = username;
             if (username != string.Empty && password != string.Empty)
             {
-                if (_model.CheckLogin (username, CheckPassword(password)))
+                if (_model.CheckLogin (username, HashPassword(password, true)))
                 {
                     Redirection("TasksTodoPage");
                 }
@@ -220,32 +219,41 @@ namespace TodoList_App
             }
         }
 
-        public string CheckPassword(string password)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="created"></param>
+        /// <returns></returns>
+        public string HashPassword(string password, bool created)
         {
-            salt = _model.GetSalt(username); //
+            // Control the need for the salt
+            if (created)
+                salt = _model.GetSalt(username); //Get salt in bytes
+            else
+                salt = GenerateSalt(); //Generate a salt
+
+
             using (var sha256 = new SHA256Managed())
             {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password); //Array with the password convert in bytes
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length]; //Definition of the length of the array that will contains the password and the salt
 
                 // Concatenate password and salt
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(saltedPassword, 0, saltedPassword, passwordBytes.Length, salt.Length); //
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length); //Add the password in bytes in the array for salted password
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length); //Add the salt in bytes in the array for salted password
 
                 // Hash the concatenated password and salt
                 byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 
                 // Concatenate the salt and hashed password for storage
-                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
+                byte[] hashedPasswordWithSalt = new byte[salt.Length + hashedBytes.Length];
                 Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
                 Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
 
                 return Convert.ToBase64String(hashedPasswordWithSalt);
-                //Understand the code
             }
         }
-
-
 
         /// <summary>
         /// 
@@ -276,7 +284,7 @@ namespace TodoList_App
                 digit.Matches(password).Count >= 1 && specials.Matches(password).Count >= 1) // Controls the password is enough secure
             {
                 if (password == confirmPassword)
-                { _model.CreateUser(username, HashPassword(username, password, true), salt.ToString()); Redirection("TasksTodoPage"); } //
+                { _model.CreateUser(username, HashPassword(password, false), salt); Redirection("TasksTodoPage"); } //
                 else
                 { MessageBox.Show("Vos deux entrées de mots de passe ne se correpondent pas."); }
             }
@@ -289,39 +297,21 @@ namespace TodoList_App
             }
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="create"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
-        /// <returns></returns>
-        public string HashPassword(string username, string password, bool create)
+        public static byte[] GenerateSalt(int size = 20)
         {
-            salt = _model.GetSalt(username); //
-            using (var sha256 = new SHA256Managed())
+            using (var rng = new RNGCryptoServiceProvider()) //Secure random generator 
             {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                // Concatenate password and salt
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                // Hash the concatenated password and salt
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                // Concatenate the salt and hashed password for storage
-                byte[] hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
-                Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
-                Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
-
-                return Convert.ToBase64String(hashedPasswordWithSalt);
+                byte[] salt = new byte[size]; //Definition of the salt size
+                rng.GetBytes(salt); //Random bytes
+                return salt;
             }
         }
+
 
         /// <summary>
         /// 

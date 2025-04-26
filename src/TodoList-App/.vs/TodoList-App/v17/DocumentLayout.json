@@ -1,0 +1,155 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|c:\\users\\sarah\\videos\\e_todolist\\src\\todolist-app\\todolist-app\\controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\views\\usercreationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\views\\usercreationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\views\\addtaskpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\views\\addtaskpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\models\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\models\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\views\\taskstodopage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\views\\taskstodopage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\views\\homepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\views\\homepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\todolist-app\\views\\tasksdonepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC09BED7-7D2A-4486-91EA-906E760E37F9}|TodoList-App\\TodoList-App.csproj|solutionrelative:todolist-app\\views\\tasksdonepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Controller.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Controllers\\Controller.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Controllers\\Controller.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Controllers\\Controller.cs",
+              "RelativeToolTip": "TodoList-App\\Controllers\\Controller.cs",
+              "ViewState": "AgIAAMMBAAAA3PPcTucwwNsBAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:26.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TasksTodoPage.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\TasksTodoPage.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Views\\TasksTodoPage.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\TasksTodoPage.cs",
+              "RelativeToolTip": "TodoList-App\\Views\\TasksTodoPage.cs",
+              "ViewState": "AgIAAGEAAAAAvFd9syggwDYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TasksDonePage.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\TasksDonePage.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Views\\TasksDonePage.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\TasksDonePage.cs",
+              "RelativeToolTip": "TodoList-App\\Views\\TasksDonePage.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAMwFoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003525|",
+              "WhenOpened": "2025-04-26T14:29:27.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Model.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Models\\Model.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Models\\Model.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Models\\Model.cs",
+              "RelativeToolTip": "TodoList-App\\Models\\Model.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAAANQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AddTaskPage.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\AddTaskPage.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Views\\AddTaskPage.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\AddTaskPage.cs",
+              "RelativeToolTip": "TodoList-App\\Views\\AddTaskPage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserCreationPage.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\UserCreationPage.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Views\\UserCreationPage.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\UserCreationPage.cs",
+              "RelativeToolTip": "TodoList-App\\Views\\UserCreationPage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomePage.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\HomePage.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Views\\HomePage.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Views\\HomePage.cs",
+              "RelativeToolTip": "TodoList-App\\Views\\HomePage.cs",
+              "ViewState": "AgIAABwAAABgilA86rUqwDQAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Program.cs",
+              "RelativeDocumentMoniker": "TodoList-App\\Program.cs",
+              "ToolTip": "C:\\Users\\sarah\\Videos\\E_TodoList\\src\\TodoList-App\\TodoList-App\\Program.cs",
+              "RelativeToolTip": "TodoList-App\\Program.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:29:27.446Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
