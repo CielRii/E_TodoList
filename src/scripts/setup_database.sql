@@ -17,4 +17,6 @@ CREATE TABLE IF NOT EXISTS t_task(
    user_id INT NOT NULL,
    PRIMARY KEY(task_id),
    FOREIGN KEY(user_id) REFERENCES t_user(user_id)
+   ON DELETE CASCADE
+   ON UPDATE CASCADE
 );
